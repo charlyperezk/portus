@@ -9,8 +9,6 @@ before_transformations = [
 ]
 
 before_validations = [
-    # RequiredFieldsHook(["username", "password", "province_id"]),
-    # RelationExistsHook("ProvinceRepo", "province_id")
 ]
 
 after_triggers = [

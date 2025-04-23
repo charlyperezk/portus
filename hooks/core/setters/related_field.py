@@ -2,12 +2,15 @@ from ports.output.repository import RelationRepository
 from common.types import TInternalData
 from hooks.base.hook import Hook
 
-class RelationExistsHook(Hook):
+class RelationFieldAssignerHook(Hook):
     def __init__(self, repo: RelationRepository, field: str):
         self.repo = repo
         self.field = field
 
     def __call__(self, data: TInternalData) -> None:
         id_ = data.__getattr__(self.field)
-        if not self.repo.exists(id_):
-            raise ValueError(f"{self._field} with value ({id_}) not found in relationed repository.")
+        related_object = self.repo.get(id_)
+        return self.set(data, related_object)
+
+    def set(self, data: TInternalData, object) -> TInternalData:
+        raise NotImplementedError("You must implement the set method.")

@@ -25,9 +25,14 @@ if __name__ == "__main__":
     
     # Create User
     service = UserService()
-    create_dto = UserCreateDTO(username="charlyperezk", password="Charly12345", email="carlosperezkuper@gmail.com")
+    create_dto = UserCreateDTO(
+        username="charlyperezk",
+        password="Charly12345",
+        email="carlosperezkuper@gmail.com",
+        country_id=1
+    )
     user_1 = asyncio.run(create_user(service, create_dto))
-
+    print(user_1)
     # Update User
     update_dto = UserUpdateDTO(username="charlyperezk", email="carlosperezkuper@portus.com")    
     updated_user = asyncio.run(update_user(service, user_1.id, create_dto))

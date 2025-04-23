@@ -1,7 +1,7 @@
 import datetime
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(frozen=True)
 class User:
     id: str
     username: str
@@ -12,3 +12,4 @@ class User:
     verified: bool
     active: bool
     email: str
+    country_id: int

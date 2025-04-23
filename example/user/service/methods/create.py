@@ -1,20 +1,22 @@
-from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle
+from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
 from hooks.triggers import EmitEventHook
 from hooks.core.setters import IdAssignerHook, PasswordHasherHook, ComputedFieldsHook, StaticFieldSetterHook
-from hooks.core.validators import RequiredFieldsHook
+from hooks.core.validators import RequiredFieldsHook, RelationExistsHook
 from hooks.functions import assign_id, set_timestamp, hash_password, send_welcome_email
+from example.user.repositories.country_repository import CountryRelationRepository
+# from example.user.service.methods.country_setter import RelatedCountryAssignerHook
 
 before_transformations = [
     PasswordHasherHook(hash_password),
     StaticFieldSetterHook(verified=False, role="standard", active=True),
     IdAssignerHook(assign_id),
     ComputedFieldsHook(set_timestamp)
+    # RelatedCountryAssignerHook(CountryRelationRepository(), "country_id") # Not implemented yet.
 ]
 
 before_validations = [
-    RequiredFieldsHook(["username", "password"]),
-    # RequiredFieldsHook(["username", "password", "province_id"]),
-    # RelationExistsHook("ProvinceRepo", "province_id")
+    RequiredFieldsHook(["username", "password", "country_id"]),
+    RelationExistsHook(CountryRelationRepository(), "country_id") # Relation validation
 ]
 
 after_triggers = [
@@ -24,8 +26,8 @@ after_triggers = [
 
 create_life_cycle = LifeCycle(
     before=ValidateAndTransformComposite(
-        validations=CompositeHook(before_validations),
+        validations=ParallelCompositeHook(before_validations),
         transformations=CompositeHook(before_transformations)
     ),
-    after=CompositeHook(after_triggers)
+    after=ParallelCompositeHook(after_triggers)
 )

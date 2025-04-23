@@ -1,8 +1,8 @@
-from typing import Optional, Literal
-from hooks.base.hook import CompositeHook, TInternalData
+from typing import Optional, Literal, Union
+from hooks.base.hook import CompositeHook, ParallelCompositeHook, TInternalData
 
 class ValidateAndTransformComposite:
-    def __init__(self, validations: CompositeHook, transformations: CompositeHook):
+    def __init__(self, validations: Union[CompositeHook, ParallelCompositeHook], transformations: CompositeHook):
         self.validations = validations
         self.transformations = transformations
 
