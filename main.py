@@ -6,7 +6,7 @@ async def create_user(service: UserService, dto: UserCreateDTO) -> UserReadDTO:
     return await service.create(dto)
 
 async def update_user(service: UserService, id: str, dto: UserUpdateDTO) -> UserReadDTO:
-    return await service.update(id, UserUpdateDTO(username="Charles"))
+    return await service.update(id, dto)
 
 async def delete_user(service: UserService, id: str) -> bool:
     return await service.delete(id)
