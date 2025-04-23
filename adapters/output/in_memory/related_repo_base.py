@@ -1,7 +1,7 @@
 from common.types import T_ID, TEntity, T_Related_Id
 from ports.output.repository import RelationRepository
 
-class RelatedRepositoryInMemory(RelationRepository[dict, T_Related_Id]):
+class RelatedRepositoryInMemory(RelationRepository[TEntity, T_Related_Id]):
     def __init__(self):
         self._storage: dict[T_ID, TEntity] = {}
     

@@ -1,16 +1,17 @@
 from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle
 from hooks.triggers import EmitEventHook
-from hooks.core.setters import ComputedFieldsHook, StaticFieldSetterHook
-from hooks.core.validators import RequiredFieldsHook, RelationExistsHook
+from hooks.core.setters import ComputedFieldsHook
+from hooks.core.validators import RelationExistsHook
 from hooks.functions import set_update_time, send_update_email
+from example.user.repositories.country_repository import CountryRelationRepository
 
 before_transformations = [
-    ComputedFieldsHook(set_update_time)
+    ComputedFieldsHook(set_update_time),
+
 ]
 
 before_validations = [
-    # RequiredFieldsHook(["username", "password", "province_id"]),
-    # RelationExistsHook("ProvinceRepo", "province_id")
+    RelationExistsHook(CountryRelationRepository(), "country_id")
 ]
 
 after_triggers = [

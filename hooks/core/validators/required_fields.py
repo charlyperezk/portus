@@ -10,3 +10,4 @@ class RequiredFieldsHook(Hook):
         missing = [f for f in self.fields if not data.contains(f)]
         if missing:
             raise ValueError(f"Missing required fields: {missing}")
+        return data

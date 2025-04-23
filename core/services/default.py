@@ -57,7 +57,7 @@ class Service(CRUDPort[TCreateDTO, TReadDTO, T_ID, TUpdateDTO]):
 
         return dto
 
-    async def _create(self, entity: TEntity) -> TReadDTO:
+    async def _create(self, entity: TEntity) -> None:
         # Save entity and convert to read DTO
         saved = self.repository.save(entity)
         return self.mapper.to_dto(saved)
