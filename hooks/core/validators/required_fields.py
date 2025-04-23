@@ -1,0 +1,12 @@
+from typing import List
+from core.types import TInternalData
+from hooks.base.hook import Hook
+
+class RequiredFieldsHook(Hook):
+    def __init__(self, fields: List[str]):
+        self.fields = fields
+
+    def __call__(self, data: TInternalData) -> None:
+        missing = [f for f in self.fields if not data.contains(f)]
+        if missing:
+            raise ValueError(f"Missing required fields: {missing}")
