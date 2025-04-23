@@ -1,5 +1,5 @@
 from typing import List
-from core.types import TInternalData
+from common.types import TInternalData
 from hooks.base.hook import Hook
 
 class RequiredFieldsHook(Hook):

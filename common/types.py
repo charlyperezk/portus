@@ -1,7 +1,7 @@
 from uuid import UUID
 from pydantic import BaseModel
 from typing import TypeVar
-from core.types.internal_data import InternalData
+from common.internal_data import InternalData
 
 Hashed_ID = type[UUID]
 T_ID = TypeVar("TId", bound=[int, str, Hashed_ID])

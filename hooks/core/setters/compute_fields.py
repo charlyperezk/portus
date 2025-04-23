@@ -1,5 +1,5 @@
 from typing import Callable, Any
-from core.types import TInternalData
+from common.types import TInternalData
 from hooks.base.hook import Hook
 
 class ComputedFieldsHook(Hook):

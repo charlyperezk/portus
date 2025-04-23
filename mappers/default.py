@@ -2,7 +2,7 @@ from dataclasses import asdict, fields, is_dataclass
 from typing import Type, Generic
 
 from pydantic import BaseModel
-from core.types import TEntity, TReadDTO, TInternalData
+from common.types import TEntity, TReadDTO, TInternalData
 from mappers.base import Mapper
 
 class DefaultMapper(Generic[TEntity, TReadDTO, TInternalData], Mapper[TEntity, TReadDTO, BaseModel, TInternalData]):
@@ -40,6 +40,6 @@ class DefaultMapper(Generic[TEntity, TReadDTO, TInternalData], Mapper[TEntity, T
         return self.internal_data_cls(self.to_dict(entity))
 
     def merge_changes(self, entity: TEntity, data: TInternalData) -> TEntity:
-        entity_as_internal_data = self.internal_data_cls(asdict(entity))
+        entity_as_internal_data = self.internal_data_cls(self.to_dict(entity))
         merged_data = entity_as_internal_data.merge(other=data.to_dict())
         return self.from_internal_data(merged_data)

@@ -1,5 +1,5 @@
 from ports.output.repository import RelationRepository
-from core.types import TInternalData
+from common.types import TInternalData
 from hooks.base.hook import Hook
 
 class RelationExistsHook(Hook):

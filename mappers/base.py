@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic, Any
-from core.types import TEntity, TReadDTO, TInternalData, TCreateDTO
+from common.types import TEntity, TReadDTO, TInternalData, TCreateDTO
 
 class Mapper(ABC, Generic[TEntity, TReadDTO, TCreateDTO, TInternalData]):
     @abstractmethod

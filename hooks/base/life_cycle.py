@@ -1,6 +1,5 @@
 from typing import Optional, Literal
-from core.types import TInternalData
-from hooks.base.hook import CompositeHook
+from hooks.base.hook import CompositeHook, TInternalData
 
 class ValidateAndTransformComposite:
     def __init__(self, validations: CompositeHook, transformations: CompositeHook):
