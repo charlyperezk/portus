@@ -16,3 +16,12 @@ class UserService(Service[UserCreateDTO, UserReadDTO, str, UserUpdateDTO]):
                 "country_id": CountryRelationRepository()
             }
         )
+
+    async def get(self, id: str) -> UserReadDTO:
+        user = self.repository.get(id)
+        if user is None or not user.active:
+            raise ValueError("user not found")
+        return self.mapper.to_dto(user)
+
+    async def list_all(self) -> list[UserReadDTO]:
+        return [self.mapper.to_dto(user) for user in self.repository.list_all() if user.active]

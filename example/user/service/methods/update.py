@@ -1,17 +1,17 @@
-from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle
+from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
 from hooks.triggers import EmitEventHook
 from hooks.core.setters import ComputedFieldsHook
 from hooks.core.validators import RelationExistsHook
 from hooks.functions import set_update_time, send_update_email
 from example.user.repositories.country_repository import CountryRelationRepository
 
+before_validations = [
+    RelationExistsHook(CountryRelationRepository(), "country_id")
+]
+
 before_transformations = [
     ComputedFieldsHook(set_update_time),
 
-]
-
-before_validations = [
-    RelationExistsHook(CountryRelationRepository(), "country_id")
 ]
 
 after_triggers = [
@@ -21,8 +21,8 @@ after_triggers = [
 
 update_life_cycle = LifeCycle(
     before=ValidateAndTransformComposite(
-        validations=CompositeHook(before_validations),
+        validations=ParallelCompositeHook(before_validations),
         transformations=CompositeHook(before_transformations)
     ),
-    after=CompositeHook(after_triggers)
+    after=ParallelCompositeHook(after_triggers)
 )

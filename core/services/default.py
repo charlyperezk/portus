@@ -115,9 +115,9 @@ class Service(CRUDPort[TCreateDTO, TReadDTO, T_ID, TUpdateDTO]):
     
     async def get(self, id: T_ID) -> TReadDTO:
         entity = self.repository.get(id)
-        if entity is None or not entity.active:
+        if entity is None:
             raise ValueError("Entity not found")
         return self.mapper.to_dto(entity)
 
     async def list_all(self) -> list[TReadDTO]:
-        return [self.mapper.to_dto(e) for e in self.repository.list_all() if e.active]
+        return [self.mapper.to_dto(e) for e in self.repository.list_all()]

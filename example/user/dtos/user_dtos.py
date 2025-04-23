@@ -17,6 +17,5 @@ class UserReadDTO(BaseModel):
     id: str
     username: str
     created_at: datetime
-    updated_at: datetime
     email: str
     country_id: int

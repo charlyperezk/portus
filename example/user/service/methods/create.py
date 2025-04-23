@@ -6,17 +6,17 @@ from hooks.functions import assign_id, set_timestamp, hash_password, send_welcom
 from example.user.repositories.country_repository import CountryRelationRepository
 # from example.user.service.methods.country_setter import RelatedCountryAssignerHook
 
+before_validations = [
+    RequiredFieldsHook(["username", "password", "country_id"]),
+    RelationExistsHook(CountryRelationRepository(), "country_id") # Relation validation
+]
+
 before_transformations = [
     PasswordHasherHook(hash_password),
     StaticFieldSetterHook(verified=False, role="standard", active=True),
     IdAssignerHook(assign_id),
     ComputedFieldsHook(set_timestamp)
     # RelatedCountryAssignerHook(CountryRelationRepository(), "country_id") # Not implemented yet.
-]
-
-before_validations = [
-    RequiredFieldsHook(["username", "password", "country_id"]),
-    RelationExistsHook(CountryRelationRepository(), "country_id") # Relation validation
 ]
 
 after_triggers = [
