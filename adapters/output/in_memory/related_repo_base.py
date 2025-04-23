@@ -1,4 +1,4 @@
-from core.types import T_ID, TEntity, T_Related_Id
+from common.types import T_ID, TEntity, T_Related_Id
 from ports.output.repository import RelationRepository
 
 class RelatedRepositoryInMemory(RelationRepository[dict, T_Related_Id]):

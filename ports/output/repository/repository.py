@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic
-from core.types import T_ID, TEntity
+from common.types import T_ID, TEntity
  
 class SavePort(Generic[TEntity], ABC):
     @abstractmethod

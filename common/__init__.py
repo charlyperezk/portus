@@ -1,4 +1,4 @@
-from core.types.default import (
+from common.types import (
     TInternalData,
     T_ID,
     TEntity,

@@ -2,15 +2,15 @@ from typing import Literal, Union, Optional
 
 from ports.input.crud import CRUDPort
 from ports.output.repository import CrudRepository, RelationRepository
-from hooks.base import LifeCycle
+from hooks.base.life_cycle import LifeCycle
 from mappers.base import Mapper
-from core.types import (
-    TInternalData,
+from common.types import (
     T_ID,
     TEntity,
     TCreateDTO,
     TUpdateDTO,
-    TReadDTO
+    TReadDTO,
+    TInternalData
 )
 
 HooksMap = dict[Literal["create", "update", "delete"], LifeCycle]

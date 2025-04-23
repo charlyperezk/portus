@@ -1,4 +1,4 @@
-from core.types import T_ID, TEntity, T_Related_Id
+from common.types import T_ID, TEntity, T_Related_Id
 from ports.output.repository import CrudRepository
 
 class InMemoryRep(CrudRepository[TEntity, T_ID]):

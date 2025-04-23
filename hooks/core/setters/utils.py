@@ -1,4 +1,4 @@
-from core.types import TInternalData
+from common.types import TInternalData
 from hooks.core.setters.compute_fields import ComputedFieldsHook
 
 class IdAssignerHook(ComputedFieldsHook):

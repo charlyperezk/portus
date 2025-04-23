@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Generic, List, Union
-from core.types import TInternalData
+from typing import Generic, List, Union, TypeVar
+from common.types import TInternalData
 
 class Hook(ABC, Generic[TInternalData]):
     @abstractmethod
