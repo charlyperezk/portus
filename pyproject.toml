@@ -38,4 +38,4 @@ lint = [
 ]
 
 [project.scripts]
-# ejemplo: my-tool = "common_utils.cli:main"
+# ejemplo: my-tool = "portus.cli:main"
