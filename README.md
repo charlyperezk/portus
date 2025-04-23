@@ -13,7 +13,7 @@ A robust and extensible base for building service layers using the Hexagonal Arc
 - **Relational Validation**: `RelationRepository` interface allows checking foreign key constraints without coupling to infrastructure.
 
 ### Folder Structure
-
+<pre markdown>```
 ├── .gitignore                      # Files/directories to ignore in Git commits
 ├── AUTHORS.rst                     # Project authors and contributors
 ├── LICENSE.TXT                     # Project license (e.g., MIT)
@@ -111,7 +111,7 @@ A robust and extensible base for building service layers using the Hexagonal Arc
 ├── pyproject.toml                  # Build config, dependencies
 └── test                            # Test suite root
     └── conftest.py                 # Fixtures (in-memory repos, sample DTOs, etc.)
-
+</pre>
 ### Typical Use
 
 - Build reusable domain services with minimal boilerplate.
