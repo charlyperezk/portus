@@ -1,4 +1,4 @@
-from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle
+from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
 from hooks.triggers import EmitEventHook
 from hooks.core.setters import ComputedFieldsHook, StaticFieldSetterHook
 from hooks.functions import set_update_time
@@ -17,8 +17,8 @@ after_triggers = [
 
 delete_life_cycle = LifeCycle(
     before=ValidateAndTransformComposite(
-        validations=CompositeHook(before_validations),
+        validations=ParallelCompositeHook(before_validations),
         transformations=CompositeHook(before_transformations)
     ),
-    after=CompositeHook(after_triggers)
+    after=ParallelCompositeHook(after_triggers)
 )
