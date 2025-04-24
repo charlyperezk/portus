@@ -2,15 +2,18 @@ from hooks.base import AsyncCompositeHook, ValidateAndTransformComposite, LifeCy
 from hooks.triggers import EmitEventHook
 from hooks.core.setters import ComputedFieldsHook
 from hooks.core.validators import RelationExistsHook
-from hooks.functions import set_update_time, send_update_email
+from hooks.functions import get_update_time, send_update_email
 from example.user.repositories.country_repository import CountryRelationRepository
 
 before_validations = [
-    RelationExistsHook(CountryRelationRepository(), "country_id")
+    # If the `country_id` field is marked as `Optional` in `UserUpdateDTO`
+    # and the `RelationExistsHook` receives `None`, it may raise an exception.
+    # You should customize this behavior.
+    # RelationExistsHook(CountryRelationRepository(), "country_id") 
 ]
 
 before_transformations = [
-    ComputedFieldsHook(set_update_time),
+    ComputedFieldsHook(get_update_time),
 
 ]
 

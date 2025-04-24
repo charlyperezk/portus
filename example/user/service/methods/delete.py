@@ -1,10 +1,10 @@
 from hooks.base import AsyncCompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
 from hooks.triggers import EmitEventHook
 from hooks.core.setters import ComputedFieldsHook, StaticFieldSetterHook
-from hooks.functions import set_update_time
+from hooks.functions import get_update_time
 
 before_transformations = [
-    ComputedFieldsHook(set_update_time),
+    ComputedFieldsHook(get_update_time),
     StaticFieldSetterHook(active=False)
 ]
 

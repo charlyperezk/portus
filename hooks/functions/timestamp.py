@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union
 
-def set_timestamp() -> dict[str, Union[str, datetime]]:
+def get_timestamp() -> dict[str, Union[str, datetime]]:
     print("[TransformerFunctions:SetTimeStamp] Setting timestamp.")
     now = datetime.now()
     return {
@@ -9,7 +9,7 @@ def set_timestamp() -> dict[str, Union[str, datetime]]:
         'updated_at': now
     }
 
-def set_update_time() -> dict[str, datetime]:
+def get_update_time() -> dict[str, datetime]:
     return {
         'updated_at': datetime.now()
     }
