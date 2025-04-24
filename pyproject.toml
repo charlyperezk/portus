@@ -1,41 +1,29 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "twine"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "portus"
 version = "0.1.0"
-description = "Hexagonal Service Framework (Python)"
-authors = [
-    { name = "Carlos Pérez Küper", email = "carlosperezkuper@email.com" }
-]
-dependencies = [
-    "pydantic>=2.0"
-]
+description = "A hexagonal‑architecture service framework for Python"
 readme = "README.md"
-requires-python = ">=3.9"
-license = { text = "MIT" }
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent"
+license = { file = "LICENSE.TXT" }
+authors = [ { name="Carlos Pérez Küper", email="carlosperezkuper@email.com" } ]
+dependencies = [
+  "pydantic>=2.0",
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/charlyperezk/portus"
+"Repository" = "https://github.com/charlyperezk/portus.git"
 
 [project.optional-dependencies]
 dev = [
-    "build",
-    "twine",
-    "pip-tools",
-]
-test = [
-    "pytest",
-    "pytest-cov",
-]
-lint = [
-    "ruff",
-    "black",
-    "mypy"
+  "pytest",
+  "pytest-asyncio",
+  "black",
+  "isort",
 ]
 
 [project.scripts]
-# ejemplo: my-tool = "portus.cli:main"
+#portus = "portus.main:main"

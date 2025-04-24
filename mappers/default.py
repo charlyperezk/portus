@@ -1,27 +1,14 @@
-from dataclasses import asdict, fields, is_dataclass
-from typing import Type, Generic
-
+from dataclasses import asdict, fields
 from pydantic import BaseModel
-from common.types import TEntity, TReadDTO, TInternalData
 from mappers.base import Mapper
+from common import InternalData, TEntity, TReadDTO
 
-class DefaultMapper(Generic[TEntity, TReadDTO, TInternalData], Mapper[TEntity, TReadDTO, BaseModel, TInternalData]):
-    def __init__(
-        self,
-        entity_cls: Type[TEntity],
-        read_dto_cls: Type[TReadDTO],
-        internal_data_cls: Type[TInternalData],
-    ):
-        assert is_dataclass(entity_cls), "Entity must be a dataclass"
-        self.entity_cls = entity_cls
-        self.read_dto_cls = read_dto_cls
-        self.internal_data_cls = internal_data_cls
-
-    def to_internal_data(self, dto: BaseModel) -> TInternalData:
+class DefaultMapper(Mapper[TEntity, TReadDTO, BaseModel, InternalData]):
+    def to_internal_data(self, dto: BaseModel) -> InternalData:
         data = dto.model_dump(exclude_unset=True)
         return self.internal_data_cls(data)
 
-    def from_internal_data(self, data: TInternalData) -> TEntity:
+    def from_internal_data(self, data: InternalData) -> TEntity:
         field_names = {f.name for f in fields(self.entity_cls)}
         missed_values = [field_name 
                          for field_name in field_names if not data.contains(field_name)]
@@ -36,10 +23,10 @@ class DefaultMapper(Generic[TEntity, TReadDTO, TInternalData], Mapper[TEntity, T
     def to_dict(self, entity: TEntity) -> dict:
         return asdict(entity)
     
-    def from_entity_to_internal_data(self, entity: TEntity) -> TInternalData:
+    def from_entity_to_internal_data(self, entity: TEntity) -> InternalData:
         return self.internal_data_cls(self.to_dict(entity))
 
-    def merge_changes(self, entity: TEntity, data: TInternalData) -> TEntity:
+    def merge_changes(self, entity: TEntity, data: InternalData) -> TEntity:
         entity_as_internal_data = self.internal_data_cls(self.to_dict(entity))
         merged_data = entity_as_internal_data.merge(other=data.to_dict())
         return self.from_internal_data(merged_data)

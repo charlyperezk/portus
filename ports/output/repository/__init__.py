@@ -1,5 +1,12 @@
-from ports.output.repository.repository import GetPort, ListPort, DeletePort, SavePort, CrudRepository
-from ports.output.repository.related_repository import RelationRepository
+from ports.output.repository.repository import (
+    GetPort,
+    ListPort,
+    DeletePort,
+    SavePort,
+    CrudRepository,
+    ExistsPort,
+    GetAndAskRepository
+)
 
 __all__ = [
     "GetPort",
@@ -7,5 +14,6 @@ __all__ = [
     "DeletePort",
     "SavePort",
     "CrudRepository",
-    "RelationRepository"
+    "GetAndAskRepository",
+    "ExistsPort"
 ]

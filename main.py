@@ -32,7 +32,6 @@ if __name__ == "__main__":
         country_id=1
     )
     user_1 = asyncio.run(create_user(service, create_dto))
-    print(user_1)
     # Update User
     update_dto = UserUpdateDTO(username="charlyperezk", email="carlosperezkuper@portus.com")    
     updated_user = asyncio.run(update_user(service, user_1.id, create_dto))

@@ -6,7 +6,7 @@ class SavePort(Generic[TEntity], ABC):
     @abstractmethod
     def save(self, object: TEntity) -> TEntity: ...
 
-class GetPort(Generic[TEntity, T_ID], ABC):
+class GetPort(Generic[T_ID, TEntity], ABC):
     @abstractmethod
     def get(self, id: T_ID) -> TEntity: ...
 
@@ -16,8 +16,15 @@ class ListPort(Generic[TEntity], ABC):
 
 class DeletePort(Generic[T_ID], ABC):
     @abstractmethod
-    def delete(self, id: T_ID) -> None: ...
+    def delete(self, id: T_ID) -> bool: ...
 
-class CrudRepository(SavePort[TEntity], GetPort[TEntity, T_ID], ListPort[TEntity], DeletePort[T_ID], ABC):
+class CrudRepository(SavePort[TEntity], GetPort[T_ID, TEntity], ListPort[TEntity], DeletePort[T_ID], ABC):
     @abstractmethod
     def assign_id(self) -> T_ID: ...
+
+class ExistsPort(Generic[T_ID], ABC):
+    @abstractmethod
+    def exists(self, id: T_ID) -> bool: ...
+    
+class GetAndAskRepository(GetPort[TEntity, T_ID], ExistsPort[T_ID], ABC):
+    ...

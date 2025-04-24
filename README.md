@@ -57,7 +57,7 @@ A robust and extensible base for building service layers using the Hexagonal Arc
 │       └── service
 │           ├── __init__.py
 │           ├── hooks.py            # Lifecycle hooks map for UserService
-│           └── methods             # Jinja‑generated create/update/delete code
+│           └── methods             # Methods hooks configuration create/update/delete
 │               ├── __init__.py
 │               ├── country_setter.py
 │               ├── create.py

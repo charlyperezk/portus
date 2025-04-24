@@ -1,12 +1,12 @@
 from mappers import DefaultMapper
-from core.services.default import Service
+from core.services import CRUDService
 from common.types import InternalData
 from example.user.repositories import UserInMemoryRepository, CountryRelationRepository
 from example.user.dtos import UserCreateDTO, UserUpdateDTO, UserReadDTO
 from example.user.entities import User
 from example.user.service.hooks import user_hooks
 
-class UserService(Service[UserCreateDTO, UserReadDTO, str, UserUpdateDTO]):
+class UserService(CRUDService[str, User, UserCreateDTO, UserReadDTO, UserUpdateDTO]):
     def __init__(self):
         super().__init__(
             repository=UserInMemoryRepository(),

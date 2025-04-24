@@ -5,7 +5,6 @@ from common.types import (
     TCreateDTO,
     TUpdateDTO,
     TReadDTO,
-    T_Related_Id,
     InternalData
 )
 
@@ -16,6 +15,5 @@ __all__ = [
     "TCreateDTO",
     "TUpdateDTO",
     "TReadDTO",
-    "T_Related_Id",
     "InternalData"
 ]

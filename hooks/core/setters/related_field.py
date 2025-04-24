@@ -1,9 +1,9 @@
-from ports.output.repository import RelationRepository
+from ports.output.repository import GetAndAskRepository
 from common.types import TInternalData
 from hooks.base.hook import Hook
 
 class RelationFieldAssignerHook(Hook):
-    def __init__(self, repo: RelationRepository, field: str):
+    def __init__(self, repo: GetAndAskRepository, field: str):
         self.repo = repo
         self.field = field
 
