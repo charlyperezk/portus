@@ -47,17 +47,10 @@ class ParallelCompositeHook(HookContainer):
         for hook in self.hooks:
             result = hook(data)
             if hasattr(result, "__await__"):
-                # es coroutine, lanzamos como tarea
                 tasks.append(asyncio.create_task(result))
             else:
-                # es síncrono, ejecutarlo en el loop inmediatamente
-                # y envolverlo en tarea para mantener consistencia
                 tasks.append(asyncio.create_task(asyncio.to_thread(hook, data)))
-        # lanzamos todas en paralelo, pero no esperamos a que terminen
-        # Si quisieras capturar excepciones, podrías hacer:
-        # asyncio.gather(*tasks, return_exceptions=True)
-        # Pero aquí las ignoramos para no bloquear
-        _ = await asyncio.gather(*tasks, return_exceptions=True)
+        _ = asyncio.gather(*tasks, return_exceptions=True)
         return data
 
     async def __call__(self, data: TInternalData) -> TInternalData:
