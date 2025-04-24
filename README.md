@@ -87,7 +87,7 @@ A robust and extensible base for building service layers using the Hexagonal Arc
 │   │   ├── id_generation.py        # assign_id()
 │   │   ├── security.py             # hash_password()
 │   │   ├── send_email.py           # send_email()
-│   │   └── timestamp.py            # set_timestamp()
+│   │   └── timestamp.py            # get_timestamp()
 │   └── triggers                    # Side‑effect hooks
 │       ├── __init__.py
 │       └── emit_event.py           # EmitEventHook for post‑action callbacks

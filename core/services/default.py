@@ -20,7 +20,7 @@ class DefaultService(Generic[T_ID, TEntity, TCreateDTO, TReadDTO, TInternalData]
         self,
         repository: CrudRepository[T_ID, TEntity],
         mapper: Mapper[TEntity, TCreateDTO, TReadDTO, TInternalData],
-        related_repositories: RelatedRepository = None,
+        related_repositories: Optional[RelatedRepository] = None,
         hooks: Optional[HooksMap] = None
 ,
     ):
