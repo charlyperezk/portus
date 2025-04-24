@@ -1,5 +1,7 @@
-from core.services.default import Service
+from core.services.default import DefaultService
+from core.services.crud import CRUDService
 
 __all__ = [
-    "Service"
+    "DefaultService",
+    "CRUDService"
 ]

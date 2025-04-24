@@ -1,17 +1,21 @@
-from common.types import T_ID, TEntity, T_Related_Id
-from ports.output.repository import CrudRepository
+from common.types import T_ID, TEntity
+from ports.output.repository import GetAndAskRepository, CrudRepository
 
-class InMemoryRep(CrudRepository[TEntity, T_ID]):
+class InMemoryStorage(GetAndAskRepository[T_ID, TEntity]):
     def __init__(self):
         self._storage: dict[T_ID, TEntity] = {}
 
+    def get(self, id: T_ID) -> TEntity | None:
+        obj = self._storage.get(id)
+        return obj
+
+    def exists(self, id: T_ID) -> bool:
+        return True if self.get(id) else False
+
+class InMemoryRepository(CrudRepository[TEntity, T_ID], InMemoryStorage[T_ID, TEntity]):
     def save(self, entity: TEntity) -> TEntity:
         self._storage[entity.id] = entity
         return entity
-
-    def get(self, entity_id: T_ID) -> TEntity | None:
-        obj = self._storage.get(entity_id)
-        return obj
     
     def list_all(self) -> list[TEntity]:
         all_objects = list(self._storage.values())        

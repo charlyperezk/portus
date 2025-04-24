@@ -1,8 +1,8 @@
 from typing import Callable, Any
 from common.types import TInternalData
-from hooks.base.hook import Hook
+from hooks.base.hook import AsyncHook
 
-class EmitEventHook(Hook):
+class EmitEventHook(AsyncHook):
     def __init__(self, event_name: str, callback: Callable[[TInternalData], Any]):
         self.event_name = event_name
         self.callback = callback

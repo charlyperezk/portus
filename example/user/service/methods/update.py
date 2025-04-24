@@ -1,4 +1,4 @@
-from hooks.base import CompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
+from hooks.base import AsyncCompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
 from hooks.triggers import EmitEventHook
 from hooks.core.setters import ComputedFieldsHook
 from hooks.core.validators import RelationExistsHook
@@ -22,7 +22,7 @@ after_triggers = [
 update_life_cycle = LifeCycle(
     before=ValidateAndTransformComposite(
         validations=ParallelCompositeHook(before_validations),
-        transformations=CompositeHook(before_transformations)
+        transformations=AsyncCompositeHook(before_transformations)
     ),
     after=ParallelCompositeHook(after_triggers)
 )

@@ -1,8 +1,8 @@
 from typing import Optional, Literal, Union
-from hooks.base.hook import CompositeHook, ParallelCompositeHook, TInternalData
+from hooks.base.hook import AsyncCompositeHook, ParallelCompositeHook, TInternalData
 
 class ValidateAndTransformComposite:
-    def __init__(self, validations: Union[CompositeHook, ParallelCompositeHook], transformations: CompositeHook):
+    def __init__(self, validations: ParallelCompositeHook, transformations: AsyncCompositeHook):
         self.validations = validations
         self.transformations = transformations
 
@@ -16,14 +16,9 @@ class ValidateAndTransformComposite:
         await self.run_validations(data)
         return await self.run_transformations(data)
 
-    @classmethod
-    def from_hooks(cls, hooks: dict[Literal["validations", "transformations"],
-                                     CompositeHook]) -> 'ValidateAndTransformComposite':
-        return cls(**hooks)
-
 class LifeCycle:
     def __init__(self, before: Optional[ValidateAndTransformComposite] = None,
-                  after: Optional[CompositeHook] = None):
+                  after: Optional[ParallelCompositeHook] = None):
         self.before = before
         self.after = after
 
@@ -32,7 +27,7 @@ class LifeCycle:
         ), "Before must be an instance of ValidateAndTransformComposite or None"
 
         assert (
-            after is None or isinstance(after, CompositeHook)
+            after is None or isinstance(after, ParallelCompositeHook)
         ), "After must be an instance of CompositeHook or None"
 
     def has_before(self) -> bool:

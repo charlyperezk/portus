@@ -11,10 +11,11 @@ class CreatePort(ABC, Generic[T_CreateDTO, T_ReadDTO, T_ID]):
     @abstractmethod
     def create(self, dto: T_CreateDTO) -> T_ReadDTO: ...
 
-class ListAllPort(ABC, Generic[T_ReadDTO, T_ID]):
+class GetPort(ABC, Generic[T_ReadDTO, T_ID]):
     @abstractmethod
     def get(self, id: T_ID) -> T_ReadDTO: ...
 
+class ListAllPort(ABC):
     @abstractmethod
     def list_all(self) -> list[T_ReadDTO]: ...
 
@@ -27,9 +28,10 @@ class DeletePort(ABC, Generic[T_ID]):
     def delete(self, id: T_ID) -> None: ...
 
 class CRUDPort(
-    CreatePort[T_CreateDTO, T_ReadDTO, T_ID],
-    ListAllPort[T_ReadDTO, T_ID],
-    UpdatePort[T_UpdateDTO, T_ID],
+    CreatePort[T_ID, T_CreateDTO, T_ReadDTO],
+    ListAllPort,
+    GetPort[T_ID, T_ReadDTO],
+    UpdatePort[T_ID, T_UpdateDTO],
     DeletePort[T_ID],
     ABC
 ): 

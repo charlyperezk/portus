@@ -1,10 +1,10 @@
 from hooks.base.hook import Hook, AsyncHook
-from hooks.base.life_cycle import CompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
+from hooks.base.life_cycle import AsyncCompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
 
 __all__ = [
     "Hook",
     "AsyncHook",
-    "CompositeHook",
+    "AsyncCompositeHook",
     "ValidateAndTransformComposite",
     "LifeCycle",
     "ParallelCompositeHook"

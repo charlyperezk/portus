@@ -1,8 +1,20 @@
 from abc import ABC, abstractmethod
-from typing import Generic, Any
+from dataclasses import is_dataclass
+from typing import Generic, Type, Any
 from common.types import TEntity, TReadDTO, TInternalData, TCreateDTO
 
-class Mapper(ABC, Generic[TEntity, TReadDTO, TCreateDTO, TInternalData]):
+class Mapper(ABC, Generic[TEntity, TCreateDTO, TReadDTO, TInternalData]):
+    def __init__(
+        self,
+        entity_cls: Type[TEntity],
+        read_dto_cls: Type[TReadDTO],
+        internal_data_cls: Type[TInternalData],
+    ):
+        assert is_dataclass(entity_cls), "Entity must be a dataclass"
+        self.entity_cls = entity_cls
+        self.read_dto_cls = read_dto_cls
+        self.internal_data_cls = internal_data_cls
+
     @abstractmethod
     def to_dict(self, entity: TEntity) -> dict[str, Any]: ...
 
@@ -13,7 +25,7 @@ class Mapper(ABC, Generic[TEntity, TReadDTO, TCreateDTO, TInternalData]):
     def to_internal_data(self, dto: TCreateDTO, **kwargs) -> TInternalData: ...
 
     @abstractmethod
-    def from_internal_data(self, data: TInternalData) -> TReadDTO: ...
+    def from_internal_data(self, data: TInternalData) -> TEntity: ...
 
     @abstractmethod
     def merge_changes(self, entity: TEntity, data: TInternalData) -> TEntity: ...
