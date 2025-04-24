@@ -26,5 +26,5 @@ class ExistsPort(Generic[T_ID], ABC):
     @abstractmethod
     def exists(self, id: T_ID) -> bool: ...
     
-class GetAndAskRepository(GetPort[TEntity, T_ID], ExistsPort[T_ID], ABC):
+class GetAndAskRepository(GetPort[T_ID, TEntity], ExistsPort[T_ID], ABC):
     ...
