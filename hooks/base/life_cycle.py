@@ -28,7 +28,7 @@ class LifeCycle:
 
         assert (
             after is None or isinstance(after, ParallelCompositeHook)
-        ), "After must be an instance of CompositeHook or None"
+        ), "After must be an instance of ParallelCompositeHook or None"
 
     def has_before(self) -> bool:
         return self.before is not None

@@ -21,7 +21,6 @@ before_transformations = [
 
 after_triggers = [
     EmitEventHook("UserCreated", lambda data: print(f"[Event:UserCreated] User created successfully. (ID {data.id})")),
-    EmitEventHook("UserCreated", send_welcome_email),
     EmitEventHook("UserCreated", send_welcome_email)
 ]
 
