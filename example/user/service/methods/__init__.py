@@ -1,9 +1,11 @@
-from example.user.service.methods.create import create_life_cycle
-from example.user.service.methods.update import update_life_cycle
-from example.user.service.methods.delete import delete_life_cycle
+from example.user.service.methods.create import (
+    get_create_trigger_hooks,
+    get_create_validation_hooks,
+    get_create_transformation_hooks
+)
 
 __all__ = [
-    "create_life_cycle",
-    "update_life_cycle",
-    "delete_life_cycle",
+    "get_create_trigger_hooks",
+    "get_create_validation_hooks",
+    "get_create_transformation_hooks"
 ]

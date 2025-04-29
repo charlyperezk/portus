@@ -1,9 +1,9 @@
 import pytest
 from datetime import datetime
-from hooks.functions.timestamp import get_timestamp, get_update_time
+from utils.functions.timestamp import add_timestamps
 
 def test_get_timestamp_returns_created_and_updated():
-    result = get_timestamp()
+    result = add_timestamps(["created_at", "updated_at"])
 
     # result should be a dict with both keys
     assert isinstance(result, dict)
@@ -15,7 +15,7 @@ def test_get_timestamp_returns_created_and_updated():
     assert isinstance(result["updated_at"], datetime)
 
 def test_get_update_time_returns_updated_only():
-    result = get_update_time()
+    result = add_timestamps(["updated_at"])
 
     # result should be a dict with only 'updated_at'
     assert isinstance(result, dict)

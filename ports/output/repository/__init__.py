@@ -5,7 +5,8 @@ from ports.output.repository.repository import (
     SavePort,
     CrudRepository,
     ExistsPort,
-    GetAndAskRepository
+    GetAndAskRepository,
+    GetByEmailPort
 )
 
 __all__ = [
@@ -15,5 +16,6 @@ __all__ = [
     "SavePort",
     "CrudRepository",
     "GetAndAskRepository",
-    "ExistsPort"
+    "ExistsPort",
+    "GetByEmailPort"
 ]

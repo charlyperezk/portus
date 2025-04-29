@@ -1,31 +1,32 @@
-from hooks.base import AsyncCompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
-from hooks.triggers import EmitEventHook
-from hooks.core.setters import ComputedFieldsHook
-from hooks.core.validators import RelationExistsHook
-from hooks.functions import get_update_time, send_update_email
-from example.user.repositories.country_repository import CountryRelationRepository
+from example.user.repositories import CountryRelationRepository, UserInMemoryRepository
+from adapters.output.notifications import NotificationPort, Notifications
+from utils.functions import add_id, add_timestamps
+from hooks.relation.setter import make_relation_context_hook
+from hooks.relation.validator import make_relation_exists_hook
+from hooks.transformer import make_static_fields_hook
+from hooks.validator import make_check_unique_email_hook
+from hooks.triggerer import make_email_notification_trigger_hook
 
-before_validations = [
-    # If the `country_id` field is marked as `Optional` in `UserUpdateDTO`
-    # and the `RelationExistsHook` receives `None`, it may raise an exception.
-    # You should customize this behavior.
-    # RelationExistsHook(CountryRelationRepository(), "country_id") 
-]
+def get_update_validation_hooks(
+    user_repository: UserInMemoryRepository,
+    country_repository: CountryRelationRepository
+):
+    return [
+        make_check_unique_email_hook("email", user_repository),
+        make_relation_exists_hook("country_id", country_repository)
+    ]
 
-before_transformations = [
-    ComputedFieldsHook(get_update_time),
+def get_update_transformation_hooks(country_repository: CountryRelationRepository):
+    return [
+        make_relation_context_hook("country_id", country_repository),
+        make_static_fields_hook(add_timestamps(["updated_at"]))
+    ]
 
-]
-
-after_triggers = [
-    EmitEventHook("UserUpdated", lambda data: print(f"[Event:UserUpdated] User updated successfully. (ID {data.id})")),
-    EmitEventHook("UserUpdated", send_update_email)
-]
-
-update_life_cycle = LifeCycle(
-    before=ValidateAndTransformComposite(
-        validations=ParallelCompositeHook(before_validations),
-        transformations=AsyncCompositeHook(before_transformations)
-    ),
-    after=ParallelCompositeHook(after_triggers)
-)
+def get_update_trigger_hooks(notifications_service: NotificationPort=Notifications()):
+    return [
+        make_email_notification_trigger_hook(
+            notification_service=notifications_service,
+            subject="¡Your data was updated succesfully!",
+            body="This is an example email"
+        )
+    ]
