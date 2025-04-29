@@ -1,5 +1,5 @@
 import pytest
-from hooks.functions.security import hash_password, verify_password
+from utils.functions.security import hash_password, verify_password
 
 def test_password_hash_returns_valid_hash():
     raw = "SuperSecret123!"

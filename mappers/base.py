@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import is_dataclass
-from typing import Generic, Type, Any
-from common.types import TEntity, TReadDTO, TInternalData, TCreateDTO
+from typing import Generic, Type, Any, Optional, Dict
+from common.types import TEntity, TCreateDTO, TReadDTO, TInternalData
 
 class Mapper(ABC, Generic[TEntity, TCreateDTO, TReadDTO, TInternalData]):
     def __init__(
@@ -19,8 +19,8 @@ class Mapper(ABC, Generic[TEntity, TCreateDTO, TReadDTO, TInternalData]):
     def to_dict(self, entity: TEntity) -> dict[str, Any]: ...
 
     @abstractmethod
-    def to_dto(self, entity: TEntity) -> TReadDTO: ...
-    
+    def to_dto(self, entity: TEntity, context: Optional[Dict[str, Any]]) -> TReadDTO: ...
+
     @abstractmethod
     def to_internal_data(self, dto: TCreateDTO, **kwargs) -> TInternalData: ...
 
@@ -32,3 +32,6 @@ class Mapper(ABC, Generic[TEntity, TCreateDTO, TReadDTO, TInternalData]):
 
     @abstractmethod
     def from_entity_to_internal_data(self, entity: TEntity) -> TInternalData: ...
+
+    @abstractmethod
+    def define_unset_fields_from_entity(self, entity: TEntity, dto: TCreateDTO) -> TInternalData: ...
