@@ -1,5 +1,4 @@
-# ![Portus Logo](#)
-
+# ![Portus Logo](docs/logo.png)
 
 ## Portus: A Modular, Hexagonal Service Framework
 
