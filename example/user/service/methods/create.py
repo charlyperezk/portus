@@ -1,33 +1,48 @@
-from hooks.base import AsyncCompositeHook, ValidateAndTransformComposite, LifeCycle, ParallelCompositeHook
-from hooks.triggers import EmitEventHook
-from hooks.core.setters import IdAssignerHook, PasswordHasherHook, ComputedFieldsHook, StaticFieldSetterHook
-from hooks.core.validators import RequiredFieldsHook, RelationExistsHook
-from hooks.functions import assign_id, get_timestamp, hash_password, send_welcome_email
-from example.user.repositories.country_repository import CountryRelationRepository
-# from example.user.service.methods.country_setter import RelatedCountryAssignerHook
+import logging
+from example.user.repositories import CountryRelationRepository, UserInMemoryRepository
+from adapters.output.notifications import NotificationPort, Notifications
+from utils.functions import add_id, add_timestamps, hash_password
+from hooks.relation.setter import make_relation_context_hook
+from hooks.relation.validator import make_relation_exists_hook
+from hooks.transformer import make_static_fields_hook, make_hash_field_hook
+from hooks.validator import make_check_unique_email_hook
+from hooks.triggerer import make_email_notification_trigger_hook
+from hooks.logger import make_welcome_email_sent_logger, make_entity_created_logger
 
-before_validations = [
-    RequiredFieldsHook(["username", "password", "country_id"]),
-    RelationExistsHook(CountryRelationRepository(), "country_id") # Relation validation
-]
+logger = logging.getLogger(__name__)
 
-before_transformations = [
-    PasswordHasherHook(hash_password),
-    StaticFieldSetterHook(verified=False, role="standard", active=True),
-    IdAssignerHook(assign_id),
-    ComputedFieldsHook(get_timestamp)
-    # RelatedCountryAssignerHook(CountryRelationRepository(), "country_id") # Not implemented yet.
-]
+def add_default_config():
+    return {
+        "role": "standard",
+        "active": True,
+        "verified": False
+    }
 
-after_triggers = [
-    EmitEventHook("UserCreated", lambda data: print(f"[Event:UserCreated] User created successfully. (ID {data.id})")),
-    EmitEventHook("UserCreated", send_welcome_email)
-]
+def get_create_validation_hooks(
+    user_repository: UserInMemoryRepository,
+    country_repository: CountryRelationRepository
+):
+    return [
+        make_check_unique_email_hook("email", user_repository),
+        make_relation_exists_hook("country_id", country_repository)
+    ]
 
-create_life_cycle = LifeCycle(
-    before=ValidateAndTransformComposite(
-        validations=ParallelCompositeHook(before_validations),
-        transformations=AsyncCompositeHook(before_transformations)
-    ),
-    after=ParallelCompositeHook(after_triggers)
-)
+def get_create_transformation_hooks(country_repository: CountryRelationRepository):
+    return [
+        make_hash_field_hook("password", hash_password),
+        make_relation_context_hook("country_id", country_repository),
+        make_static_fields_hook(add_default_config()),
+        make_static_fields_hook(add_id("id")),
+        make_static_fields_hook(add_timestamps(["created_at", "updated_at"])),
+    ]
+
+def get_create_trigger_hooks(notifications_service: NotificationPort=Notifications()):
+    return [
+        make_entity_created_logger(logger, "User"),
+        make_email_notification_trigger_hook(
+            notification_service=notifications_service,
+            subject="¡Welcome from Portus Service!",
+            body="This is an example email"
+        ),
+        make_welcome_email_sent_logger(logger, "User"),
+    ]

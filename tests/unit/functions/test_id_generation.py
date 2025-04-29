@@ -2,16 +2,16 @@
 
 import uuid
 import pytest
-from common_utils.hooks.functions.id_generation import assign_id
+from utils.functions.id_generation import add_id
 
 def test_id_generation_returns_uuid_string():
-    generated_id = assign_id()
+    data = add_id(field="id")
     
-    assert isinstance(generated_id, str)
+    assert isinstance(data, dict)
     
     try:
-        parsed = uuid.UUID(generated_id)
+        parsed = uuid.UUID(data['id'])
     except ValueError:
-        pytest.fail(f"Generated ID is not a valid UUID: {generated_id}")
+        pytest.fail(f"Generated ID is not a valid UUID: {data['id']}")
     
-    assert str(parsed) == generated_id
+    assert str(parsed) == data['id']

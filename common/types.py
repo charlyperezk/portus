@@ -1,4 +1,4 @@
-from typing import TypeVar, Dict, Any
+from typing import TypeVar
 from pydantic import BaseModel
 from common.internal_data import InternalData
 
@@ -8,3 +8,4 @@ TCreateDTO    = TypeVar("TCreateDTO", bound=BaseModel)
 TUpdateDTO    = TypeVar("TUpdateDTO", bound=BaseModel)
 TReadDTO      = TypeVar("TReadDTO", bound=BaseModel)
 TInternalData = TypeVar("TInternalData", bound=InternalData)
+TContextType = TypeVar("TContextType", bound=dict)

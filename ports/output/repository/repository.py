@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Generic
+from typing import Generic, Optional
 from common.types import T_ID, TEntity
  
 class SavePort(Generic[TEntity], ABC):
@@ -18,7 +18,7 @@ class DeletePort(Generic[T_ID], ABC):
     @abstractmethod
     def delete(self, id: T_ID) -> bool: ...
 
-class CrudRepository(SavePort[TEntity], GetPort[T_ID, TEntity], ListPort[TEntity], DeletePort[T_ID], ABC):
+class CrudRepository(GetPort[T_ID, TEntity], SavePort[TEntity], ListPort[TEntity], DeletePort[T_ID], ABC):
     @abstractmethod
     def assign_id(self) -> T_ID: ...
 
@@ -28,3 +28,7 @@ class ExistsPort(Generic[T_ID], ABC):
     
 class GetAndAskRepository(GetPort[T_ID, TEntity], ExistsPort[T_ID], ABC):
     ...
+
+class GetByEmailPort(Generic[TEntity], ABC):
+    def find_by_email(self, email: str) -> Optional[TEntity]:
+        ...
