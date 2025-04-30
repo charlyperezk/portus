@@ -99,6 +99,26 @@ read_dto = self.mapper.to_dto(entity, related_field_flags)
 
 ---
 
+## 🔁 Summary of the Flow
+
+1. ✅ A hook sets contextual data using `set_context_flag(...)`.
+2. 🔍 The service filters context using `get_flags_within_context(prefix="relation_setted")`.
+3. 📦 The filtered flags are passed directly to the mapper for DTO enrichment.
+4. 🧩 The mapper injects the values into the DTO fields accordingly.
+
+---
+
+## 📁 Where to Look
+
+| File | Description |
+|------|-------------|
+| `hooks/relations/setter.py` | How relation context is set during data transformation |
+| `common/context_schemas.py` | Defines `RelatedFieldContext` used in relation flags |
+| `core/services/crud.py` | Service filters relation flags and passes them to the mapper |
+| `mappers/default.py` | Enriches DTOs with related fields using the passed flags |
+
+---
+
 ## 📊 Trace Logging
 
 Portus automatically `tracks changes` performed on internal data during each service operation.
@@ -125,26 +145,6 @@ processed_data.print_trace(logger=logger.debug, prefix="CREATE FLOW")
 ```
 
 You can also change the logger, prefix, or output style depending on the context (e.g., UPDATE FLOW, DELETE FLOW, etc).
-
----
-
-## 🔁 Summary of the Flow
-
-1. ✅ A hook sets contextual data using `set_context_flag(...)`.
-2. 🔍 The service filters context using `get_flags_within_context(prefix="relation_setted")`.
-3. 📦 The filtered flags are passed directly to the mapper for DTO enrichment.
-4. 🧩 The mapper injects the values into the DTO fields accordingly.
-
----
-
-## 📁 Where to Look
-
-| File | Description |
-|------|-------------|
-| `hooks/relations/setter.py` | How relation context is set during data transformation |
-| `common/context_schemas.py` | Defines `RelatedFieldContext` used in relation flags |
-| `core/services/crud.py` | Service filters relation flags and passes them to the mapper |
-| `mappers/default.py` | Enriches DTOs with related fields using the passed flags |
 
 ---
 
