@@ -23,6 +23,3 @@ class DefaultService(Generic[T_ID, TEntity, TCreateDTO, TReadDTO, TInternalData]
 
     async def _persist(self, object: TEntity) -> TReadDTO:
         return self.repository.save(object)
-    
-    def __read_from_context(self, internal_data: TInternalData, key: str) -> Optional[Any]:
-        return internal_data.get_context().get(key, None)

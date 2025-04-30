@@ -5,13 +5,11 @@ from hooks.transformer import DataTransformerHook
 def make_static_field_hook(field: str, value_fn: Callable[[], Any]) -> DataTransformerHook:
     def with_value(data: TInternalData):
         return data.with_value(field, value_fn())
-    
     return DataTransformerHook(with_value)
 
 def make_static_fields_hook(fields: Dict[str, Any]) -> DataTransformerHook:
     def merge(data: TInternalData):
         return data.merge(fields)
-    
     return DataTransformerHook(merge)
 
 def make_computed_fields_hook(compute_fn: Callable[[TInternalData], Dict[str, Any]]) -> DataTransformerHook:
@@ -22,11 +20,9 @@ def make_computed_fields_hook(compute_fn: Callable[[TInternalData], Dict[str, An
         return data.merge(computed)
     return DataTransformerHook(transform)
 
-def make_context_static_field_hook(fields: Dict[str, Any]) -> DataTransformerHook:
+def make_context_flag_hook(flag_prefix: str) -> DataTransformerHook:
     def with_context(data: TInternalData):
-        for k, v in fields.items():
-            data = data.with_context(k, v)
-        return data
+        return data.set_context_flag(flag_prefix)
     return DataTransformerHook(with_context)
 
 def make_hash_field_hook(

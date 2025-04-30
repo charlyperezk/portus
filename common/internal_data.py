@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Union
+from common.context_schemas import ContextFlag, RelatedFieldContext
 
 @dataclass(frozen=True)
 class InternalData:
     data: Dict[str, Any]
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: Dict[str, Union[ContextFlag, RelatedFieldContext, Any]] = field(default_factory=dict)
 
     def __getattr__(self, name: str) -> Any:
         value = self.data.get(name)
@@ -33,12 +34,28 @@ class InternalData:
             raise ValueError(f"Missing required fields: {missing}")
         return self
     
+    def without_value(self, key: str) -> "InternalData":
+        data = {k: v for k, v in self.data.items() if k != key}
+        return InternalData(data)
+
     def get_context(self) -> Dict[str, Any]:
         return self.context
     
     def with_context(self, key: str, value: Any) -> "InternalData":
         return InternalData(self.data, {**self.context, key: value})
 
-    def without_value(self, key: str) -> "InternalData":
-        data = {k: v for k, v in self.data.items() if k != key}
-        return InternalData(data)
+    def get_value_from_context(self, key: str) -> Optional[Any]:
+        return self.context.get(key, "None")
+    
+    def set_context_flag(self, key: str, flag: Optional[ContextFlag]=ContextFlag) -> "InternalData":
+        return self.with_context(key, flag)
+
+    def get_flags_within_context(self, prefix: Optional[str] = None) -> Dict[str, ContextFlag]:
+        flags = {
+            k: v
+            for k, v in self.context.items()
+            if hasattr(v, "is_flag") and v.is_flag()
+        }
+        if prefix:
+            return {k: v for k, v in flags.items() if k.startswith(prefix)}
+        return flags

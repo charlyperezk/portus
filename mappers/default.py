@@ -1,8 +1,14 @@
 from dataclasses import asdict, fields
 from pydantic import BaseModel
-from typing import Dict, Any
+from typing import Dict, Optional
 from mappers.base import Mapper
-from common.types import TEntity, TCreateDTO, TReadDTO, TInternalData
+from common.types import (
+    TEntity,
+    TCreateDTO,
+    TReadDTO,
+    TInternalData,
+    RelatedFieldContext,
+)
 
 class DefaultMapper(Mapper[TEntity, TCreateDTO, TReadDTO, TInternalData]):
     def to_internal_data(self, dto: BaseModel) -> TInternalData:
@@ -18,10 +24,16 @@ class DefaultMapper(Mapper[TEntity, TCreateDTO, TReadDTO, TInternalData]):
         expected_data = {field_name: data.get_value(field_name) for field_name in field_names}
         return self.entity_cls(**expected_data)
 
-    def to_dto(self, entity: TEntity, context: Dict[str, Any]) -> TReadDTO:
+    def to_dto(self, entity: TEntity,
+                context_flags: Optional[Dict[str, RelatedFieldContext]]=None) -> TReadDTO:
         data = asdict(entity)
-        if context:
-            data.update(**context)
+
+        if context_flags:
+            context_relation_data = {
+                v.key: v.value for _, v in context_flags.items()
+            }
+            data.update(**context_relation_data)
+        
         return self.read_dto_cls(**data)
 
     def to_dict(self, entity: TEntity) -> dict:
