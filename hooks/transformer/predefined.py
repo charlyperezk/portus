@@ -22,6 +22,13 @@ def make_computed_fields_hook(compute_fn: Callable[[TInternalData], Dict[str, An
         return data.merge(computed)
     return DataTransformerHook(transform)
 
+def make_context_static_field_hook(fields: Dict[str, Any]) -> DataTransformerHook:
+    def with_context(data: TInternalData):
+        for k, v in fields.items():
+            data = data.with_context(k, v)
+        return data
+    return DataTransformerHook(with_context)
+
 def make_hash_field_hook(
     field: str,
     hash_function: Callable[[str], str],

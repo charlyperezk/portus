@@ -7,7 +7,8 @@ from common.types import (
     TCreateDTO,
     TUpdateDTO,
     TReadDTO,
-    TInternalData
+    TInternalData,
+    PASIVE_DELETION_FLAG
 )
 from hooks.base import HookOrchestrator, BaseHook
 
@@ -45,31 +46,39 @@ class CRUDService(
         entity = self.repository.get(id)
         if not entity:
             raise ValueError(f"Entity with ID {id} not found.")
+        
         data = self.mapper.from_entity_to_internal_data(entity)
         processed_data = await self._run_before_delete_hooks(data)
-        self.repository.delete(id)
+        
+        if self.__read_from_context(processed_data, PASIVE_DELETION_FLAG):
+            await self._persist(self.mapper.from_internal_data(processed_data))
+        else:
+            self.repository.delete(id)
+        
         await self._run_after_delete_hooks(processed_data)
         return True
 
-    async def get(self, id: T_ID) -> TReadDTO:
-        entity = self.repository.get(id)
-        if entity is None:
-            raise ValueError("Entity not found")
-        raw_data = self.mapper.from_entity_to_internal_data(entity)
-        processed_data = await self._run_before_get_hooks(raw_data)
-        read_dto = self.mapper.to_dto(entity, processed_data.get_context())
-        await self._run_after_get_hooks(read_dto)
-        return read_dto
+    # TODO: Define the hooks and default behavior of get and list all methods.
 
-    async def list_all(self) -> list[TReadDTO]:
-        all = [entity for entity in self.repository.list_all()]
-        data = [self.mapper.from_entity_to_internal_data(entity) for 
-                entity in all]
-        processed_data = await self._run_after_list_hooks(data)
-        list_of_dtos = [self.mapper.to_dto(entity, data.get_context()) for
-                        entity, data in zip(all, processed_data)]
-        await self._run_after_list_hooks(processed_data)
-        return list_of_dtos
+    # async def get(self, id: T_ID) -> TReadDTO:
+    #     entity = self.repository.get(id)
+    #     if entity is None:
+    #         raise ValueError("Entity not found")
+    #     raw_data = self.mapper.from_entity_to_internal_data(entity)
+    #     processed_data = await self._run_before_get_hooks(raw_data)
+    #     read_dto = self.mapper.to_dto(entity, processed_data.get_context())
+    #     await self._run_after_get_hooks(read_dto)
+    #     return read_dto
+
+    # async def list_all(self) -> list[TReadDTO]:
+    #     all = [entity for entity in self.repository.list_all()]
+    #     data = [self.mapper.from_entity_to_internal_data(entity) for 
+    #             entity in all]
+    #     processed_data = await self._run_after_list_hooks(data)
+    #     list_of_dtos = [self.mapper.to_dto(entity, data.get_context()) for
+    #                     entity, data in zip(all, processed_data)]
+    #     await self._run_after_list_hooks(processed_data)
+    #     return list_of_dtos
 
     def build_hook_orchestrator(self, hooks: BaseHook) -> HookOrchestrator:
         return HookOrchestrator.from_hooks(hooks)

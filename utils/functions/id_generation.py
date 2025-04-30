@@ -2,5 +2,5 @@ import uuid
 
 def add_id(field: str) -> str:
     return {
-        'id': str(uuid.uuid4())
+        field: str(uuid.uuid4())
     }

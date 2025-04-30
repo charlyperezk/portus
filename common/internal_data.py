@@ -22,9 +22,7 @@ class InternalData:
         return InternalData({**self.data, **other}, context=self.context)
 
     def to_dict(self) -> Dict[str, Any]:
-        context_keys = [key for key in self.data.keys() if not key.startswith("__")]
-        data = {k: self.__getattr__(k) for k in context_keys}
-        return data
+        return self.data
 
     def contains(self, key: str) -> bool:
         return key in self.data
@@ -38,7 +36,7 @@ class InternalData:
     def get_context(self) -> Dict[str, Any]:
         return self.context
     
-    def set_context(self, key: str, value: Any) -> "InternalData":
+    def with_context(self, key: str, value: Any) -> "InternalData":
         return InternalData(self.data, {**self.context, key: value})
 
     def without_value(self, key: str) -> "InternalData":

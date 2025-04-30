@@ -45,7 +45,32 @@ mappers/        # Entity-to-DTO mappers
 common/         # Shared types, internal data, exceptions
 tests/          # Unit and integration tests
 ```
+---
 
+## Context Usage Guidelines
+
+Portus introduces a lightweight mechanism for passing auxiliary execution flags or metadata during the processing of internal data, without polluting the core business fields.
+
+### What is `context`?
+
+Each `InternalData` object contains a `context` dictionary that allows hooks, validators, and service layers to store temporary or behavioral data.
+
+### Why use it?
+
+- To alter service flow (e.g., passive vs. hard deletion)
+- To store cross-cutting flags (e.g., `skip_validation`)
+- To provide metadata for logging or event dispatchers
+
+### Example
+
+```python
+data = data.with_context("pasive_deletion", True)
+
+if "pasive_deletion" in data.get_context():
+    await self._persist(...)
+else:
+    self.repository.delete(id)
+```
 ---
 
 ### 🧪 Running Tests

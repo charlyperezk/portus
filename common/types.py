@@ -9,3 +9,4 @@ TUpdateDTO    = TypeVar("TUpdateDTO", bound=BaseModel)
 TReadDTO      = TypeVar("TReadDTO", bound=BaseModel)
 TInternalData = TypeVar("TInternalData", bound=InternalData)
 TContextType = TypeVar("TContextType", bound=dict)
+PASIVE_DELETION_FLAG = "pasive_deletion"
