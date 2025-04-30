@@ -7,6 +7,7 @@ def require_fields(fields: list[str]) -> DataValidatorHook:
         missing = [f for f in fields if not data.contains(f)]
         if missing:
             raise ValueError(f"Missing required fields: {missing}")
+        return data
     return DataValidatorHook(validate)
 
 def make_check_unique_email_hook(

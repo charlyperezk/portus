@@ -33,7 +33,7 @@ def get_create_transformation_hooks(country_repository: CountryRelationRepositor
         make_relation_context_hook("country_id", country_repository),
         make_static_fields_hook(add_default_config()),
         make_static_fields_hook(add_id("id")),
-        make_static_fields_hook(add_timestamps(["created_at", "updated_at"])),
+        make_static_fields_hook(add_timestamps(["created_at", "updated_at"]))
     ]
 
 def get_create_trigger_hooks(notifications_service: NotificationPort=Notifications()):
@@ -44,5 +44,5 @@ def get_create_trigger_hooks(notifications_service: NotificationPort=Notificatio
             subject="¡Welcome from Portus Service!",
             body="This is an example email"
         ),
-        make_welcome_email_sent_log(logger, "User"),
+        make_welcome_email_sent_log(logger, "User")    
     ]

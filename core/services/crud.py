@@ -1,3 +1,4 @@
+import logging
 from typing import List
 from ports.input.crud import CRUDPort
 from core.services.default import DefaultService
@@ -12,6 +13,8 @@ from common.types import (
     RELATION_SETTED_FLAG
 )
 from hooks.base import HookOrchestrator, BaseHook
+
+logger = logging.getLogger(__name__)
 
 class CRUDService(
     DefaultService[T_ID, TEntity, TCreateDTO, TReadDTO, TInternalData],
@@ -31,6 +34,7 @@ class CRUDService(
         )
         
         await self._run_after_create_hooks(processed_data)
+        processed_data.print_trace(logger=logger.debug, prefix="CREATE FLOW")
         return read_dto
     
     async def update(self, id: T_ID, dto: TUpdateDTO) -> TReadDTO:
@@ -49,6 +53,8 @@ class CRUDService(
                 prefix=RELATION_SETTED_FLAG
             )
         )
+
+        processed_data.print_trace(logger=logger.debug, prefix="UPDATE FLOW")
 
         await self._run_after_update_hooks(
             self.mapper.from_entity_to_internal_data(merged_entity)
@@ -69,7 +75,9 @@ class CRUDService(
             await self._persist(self.mapper.from_internal_data(processed_data))
         else:
             self.repository.delete(id)
-        
+
+        processed_data.print_trace(logger=logger.debug, prefix="DELETE FLOW")
+
         await self._run_after_delete_hooks(processed_data)
         return True
 

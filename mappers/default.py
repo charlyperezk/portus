@@ -49,6 +49,12 @@ class DefaultMapper(Mapper[TEntity, TCreateDTO, TReadDTO, TInternalData]):
     
     def define_unset_fields_from_entity(self, entity: TEntity, dto: TCreateDTO) -> TInternalData:
         dto_dict = dto.model_dump()
+        
         dict_of_unsetted = {k: v for k, v in dto_dict.items() if not v}
         data_obtained_from_entity = {k: v for k, v in self.to_dict(entity).items() if k in dict_of_unsetted}
-        return self.internal_data_cls(dto_dict).merge(data_obtained_from_entity)
+        data = self.internal_data_cls(dto_dict)
+        
+        if data_obtained_from_entity:
+            data.merge(data_obtained_from_entity)
+        
+        return data

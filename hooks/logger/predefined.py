@@ -31,3 +31,8 @@ def make_deletion_email_sent_log(logger: Logger, entity_name: str) -> LogComposi
     def log_fn(data: TInternalData) -> str:
         return f"Account deleted email sent to {entity_name.capitalize()} with Email {data.get_value('email')}"
     return LogCompositorHook(logger, log_fn)
+
+def make_internal_data_trace_log(logger: Logger) -> LogCompositorHook:
+    def log_fn(data: TInternalData) -> str:
+        return f"InternalData trace {tuple(enumerate(data.trace))}"
+    return LogCompositorHook(logger, log_fn)

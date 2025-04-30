@@ -15,6 +15,7 @@
 - **Passive & Active Behavior**: Easily switch between soft deletion or hard deletion by setting context flags.
 - **DTO Enrichment**: Populate additional fields in output DTOs with context-bound related entities.
 - **Async & Decoupled Execution**: Perform side effects (emails, logs, metrics) cleanly and safely.
+- **Trace Logging**: Track changes performed on internal data (e.g., field mutations, merges, context injections).
 
 ---
 
@@ -95,6 +96,35 @@ related_field_flags = data.get_flags_within_context(prefix="relation_setted")
 # Pass only the related flags to the mapper
 read_dto = self.mapper.to_dto(entity, related_field_flags)
 ```
+
+---
+
+## 📊 Trace Logging
+
+Portus automatically `tracks changes` performed on internal data during each service operation.
+
+Each operation's execution path is logged as a step-by-step trace, which is useful for:
+
+- Debugging transformations and validations
+- Auditing hook behavior
+- Understanding data flow across services
+
+```bash
+DEBUG:core.services.crud:CREATE FLOW (6 steps):
+       [0] Set value: password_hash = **hide**
+       [1] Remove key: password
+       [2] Set context: relation_setted_country = RelatedFieldContext(key='country', value={'id': 1, 'name': 'Argentina'})
+       [3] Merged with: {'role': 'standard', 'active': True, 'verified': False}
+        ...
+```
+
+How to enable logging:
+
+```python
+processed_data.print_trace(logger=logger.debug, prefix="CREATE FLOW")
+```
+
+You can also change the logger, prefix, or output style depending on the context (e.g., UPDATE FLOW, DELETE FLOW, etc).
 
 ---
 

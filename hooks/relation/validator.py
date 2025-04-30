@@ -11,4 +11,5 @@ def make_relation_exists_hook(
         exists = repository.exists(id)
         if not exists:
             raise ValueError(f"Related entity with id {id} not found")
+        return data
     return DataValidatorHook(validate)
