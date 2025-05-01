@@ -119,7 +119,7 @@ read_dto = self.mapper.to_dto(entity, related_field_flags)
 
 ---
 
-## 📊 Trace Logging
+## 📊 Internal Data Trace Logging
 
 Portus automatically `tracks changes` performed on internal data during each service operation.
 
@@ -129,8 +129,6 @@ Each operation's execution path is logged as a step-by-step trace, which is usef
 - Auditing hook behavior
 - Understanding data flow across services
 
-## ![Portus Logo](docs/debug_logs.png)
-
 How to enable logging:
 
 ```python
@@ -138,6 +136,10 @@ processed_data.print_trace(logger=logger.debug, prefix="CREATE FLOW")
 ```
 
 You can also change the logger, prefix, or output style depending on the context (e.g., UPDATE FLOW, DELETE FLOW, etc).
+
+## Screenshots
+
+## ![Logs](docs/debug_logs.png)
 
 ---
 
