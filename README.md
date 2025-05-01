@@ -141,6 +141,9 @@ You can also change the logger, prefix, or output style depending on the context
 
 ## ![Logs](docs/debug_logs.png)
 
+Debug mode.
+Check example/user/config/loggers.py
+
 ---
 
 ### 🧪 Running Tests
