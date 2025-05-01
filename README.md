@@ -139,7 +139,7 @@ You can also change the logger, prefix, or output style depending on the context
 
 ## Screenshots
 
-## ![Logs](docs/debug_logs.png)
+## ![Logs](docs/debug_mode_logs.png)
 
 Debug mode.
 Check example/user/config/loggers.py
