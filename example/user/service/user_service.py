@@ -67,9 +67,9 @@ class UserService(CRUDService[str, User, UserCreateDTO, UserReadDTO, InternalDat
         orchestrator = self.build_hook_orchestrator(hooks=hooks, logger=orchestrator_logger)
 
         if step in ("validation", "transformation"):
-            return await orchestrator.run(data, action)
+            return await orchestrator.run(data, step)
         else:
-            await orchestrator.run(data)
+            await orchestrator.run(data, "trigger")
 
     async def _run_before_create_hooks(self, data: InternalData) -> InternalData:
         self.log_info("Create flow - running validation hooks ...")
