@@ -129,14 +129,7 @@ Each operation's execution path is logged as a step-by-step trace, which is usef
 - Auditing hook behavior
 - Understanding data flow across services
 
-```bash
-DEBUG:core.services.crud:CREATE FLOW (6 steps):
-       [0] Set value: password_hash = **hide**
-       [1] Remove key: password
-       [2] Set context: relation_setted_country = RelatedFieldContext(key='country', value={'id': 1, 'name': 'Argentina'})
-       [3] Merged with: {'role': 'standard', 'active': True, 'verified': False}
-        ...
-```
+## ![Portus Logo](docs/debug_logs.png)
 
 How to enable logging:
 

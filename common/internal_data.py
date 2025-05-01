@@ -72,7 +72,9 @@ class InternalData:
         with_index: bool = True,
         logger: Optional[Callable[[str], None]] = print
     ) -> None:
-        logger(f"{prefix} ({len(self.trace)} steps):")
+        message = f"{prefix} summary ({len(self.trace)} steps):"
         for i, entry in enumerate(self.trace):
-            index = f"[{i}] " if with_index else "- "
-            logger(f"\t{index}{entry}")
+            index = f"[{i+1}] " if with_index else "- "
+            message += f"\n\t{index}{entry}"
+        
+        logger(message)

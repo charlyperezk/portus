@@ -6,3 +6,7 @@ class ValidationError(Exception):
     @classmethod
     def related_id_not_exists(cls, field, id):
         raise cls(f"{field} with value ({id}) not found in relationed repository.")
+    
+    @classmethod
+    def id_not_exists(cls, id):
+        raise cls(f"Entity with ID {id} not found.")

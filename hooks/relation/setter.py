@@ -12,7 +12,7 @@ def make_relation_context_hook(
 ) -> DataTransformerHook:
     async def transform(data: TInternalData) -> TInternalData:
         id_value = data.get_value(field)
-        entity = repository.get(id_value)
+        entity = await repository.get(id_value)
         key = key_name or field.replace("_id", "")
         flag_identifier = f"{RELATION_SETTED_FLAG}_{key}"
         return data.set_context_flag(

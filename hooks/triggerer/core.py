@@ -1,6 +1,7 @@
+from typing import Callable, Awaitable, Union
 from hooks.base import BaseHook
 from common.types import TInternalData
-from typing import Callable, Awaitable, Union
+from common.exceptions import TriggerError
 
 TriggererFn = Callable[[TInternalData], Union[None, Awaitable[None]]]
 
@@ -9,5 +10,8 @@ class DataTriggererHook(BaseHook):
         self.triggerer_fn = triggerer_fn
 
     async def __call__(self, data: TInternalData) -> Union[None, Awaitable[None]]:
-        result = self.triggerer_fn(data)
-        return await self._maybe_await(result)
+        try:
+            result = self.triggerer_fn(data)
+            return await self._maybe_await(result)
+        except Exception as e:
+            raise TriggerError(e)

@@ -8,8 +8,16 @@ def make_relation_exists_hook(
     ) -> DataValidatorHook:
     async def validate(data: TInternalData):
         id = data.get_value(field)
-        exists = repository.exists(id)
+        exists = await repository.exists(id)
         if not exists:
             raise ValueError(f"Related entity with id {id} not found")
+        return data
+    return DataValidatorHook(validate)
+
+def make_is_inactive_hook(field: str) -> DataValidatorHook:
+    async def validate(data: TInternalData):
+        active = data.get_value(field)
+        if not active:
+            raise ValueError(f"Related entity with id {data.get_value("id")} not found")
         return data
     return DataValidatorHook(validate)
