@@ -1,12 +1,13 @@
-from adapters.output.notifications import NotificationPort, Notifications
+from src.adapters.output.notifications import NotificationPort, Notifications
+from src.utils.functions import add_timestamps
+from src.hooks.relation.setter import make_relation_context_hook
+from src.hooks.relation.validator import make_relation_exists_hook
+from src.hooks.transformer import make_static_fields_hook
+from src.hooks.validator import make_check_unique_email_hook
+from src.hooks.triggerer import make_email_notification_trigger_hook
+
 from example.user.config import notifications_logger, update_email
 from example.user.repositories import CountryRelationRepository, UserInMemoryRepository
-from utils.functions import add_timestamps
-from hooks.relation.setter import make_relation_context_hook
-from hooks.relation.validator import make_relation_exists_hook
-from hooks.transformer import make_static_fields_hook
-from hooks.validator import make_check_unique_email_hook
-from hooks.triggerer import make_email_notification_trigger_hook
 
 def update_validation_hooks(
     user_repository: UserInMemoryRepository,

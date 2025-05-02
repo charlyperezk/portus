@@ -7,7 +7,7 @@ name = "portus"
 version = "0.1.0"
 description = "A hexagonal‑architecture service framework for Python"
 readme = "README.md"
-license = { file = "LICENSE.TXT" }
+license-files = ["LICENSE.TXT", "AUTHORS.rst"]
 authors = [ { name="Carlos Pérez Küper", email="carlosperezkuper@email.com" } ]
 dependencies = [
   "pydantic>=2.0",

@@ -1,8 +1,8 @@
 from typing import List
-from mappers import DefaultMapper
-from common.types import InternalData
-from core.services import CRUDService
-from hooks.base.orchestrator import HookOrchestrator
+from src.mappers import DefaultMapper
+from src.common.types import InternalData
+from src.core.services import CRUDService
+from src.hooks.base.orchestrator import HookOrchestrator
 
 from example.user.config import service_logger, orchestrator_logger
 from example.user.repositories import UserInMemoryRepository, CountryRelationRepository

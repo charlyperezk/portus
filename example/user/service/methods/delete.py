@@ -1,9 +1,10 @@
+from src.common.types import PASSIVE_DELETION_FLAG
+from src.adapters.output.notifications import NotificationPort, Notifications
+from src.utils.functions import add_timestamps
+from src.hooks.transformer import make_static_fields_hook, make_context_flag_hook
+from src.hooks.triggerer import make_email_notification_trigger_hook
+
 from example.user.config import notifications_logger, delete_email
-from common.types import PASSIVE_DELETION_FLAG
-from adapters.output.notifications import NotificationPort, Notifications
-from utils.functions import add_timestamps
-from hooks.transformer import make_static_fields_hook, make_context_flag_hook
-from hooks.triggerer import make_email_notification_trigger_hook
 
 def delete_transformation_hooks():
     return [

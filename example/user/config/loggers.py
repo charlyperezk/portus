@@ -1,5 +1,5 @@
 import logging
-from common.logger import configure_logging
+from src.common.logger import configure_logging
 
 SERVICE_NAME = "UserService"
 create_logger = configure_logging(logging.DEBUG)
