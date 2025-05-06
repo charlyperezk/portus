@@ -1,6 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, APIRouter
 from fastapi.responses import Response
-from typing import Generic, Type, Optional, List
+from typing import Generic, Type, Optional, List, Union
 from src.ports.input.crud import CRUDPort
 from src.common.logger import Logger, create_logger
 from src.common.types import T_ID, TCreateDTO, TReadDTO, TUpdateDTO
@@ -79,3 +79,19 @@ class FastAPIRestController(Generic[TCreateDTO, TReadDTO, TUpdateDTO]):
             except Exception as e:
                 self.logger.error(f"There was an error deleting entity - Detail: {e}")
                 raise HTTPException(status_code=404, detail=str(e))
+            
+def set_controller(
+        app: Union[FastAPI, APIRouter],
+        service: CRUDPort,
+        create_dto: Type[TCreateDTO],
+        read_dto: Type[TReadDTO],
+        update_dto: Optional[Type[TUpdateDTO]] = None        
+) -> FastAPIRestController:
+    controller = FastAPIRestController(
+        app=app,
+        service=service,
+        create_dto=create_dto,
+        read_dto=read_dto,
+        update_dto=update_dto
+    )
+    return controller

@@ -1,5 +1,6 @@
-from src.adapters.input.rest_controller.controller import FastAPIRestController
+from src.adapters.input.rest_controller.controller import FastAPIRestController, set_controller
 
 __all__ = [
-    "FastAPIRestController"
+    "FastAPIRestController",
+    "set_controller"
 ]

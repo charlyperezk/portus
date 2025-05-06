@@ -8,6 +8,7 @@ tags=[
             "description": "Countries CRUD operations",
         }
     ]
+
 metadata = get_metadata(tags=tags)
 
 app = FastAPI(
@@ -23,5 +24,5 @@ app = FastAPI(
     openapi_url=metadata.get("openapi_url", "/openapi.json")
 )
 
-country_controller = set_country_routes(router=app)
-country_controller.register_routes("countries")
+# country_controller = set_country_routes(router=app)
+# country_controller.register_routes("countries")
