@@ -1,5 +1,6 @@
-from src.adapters.output import in_memory
+from src.adapters.output import in_memory, sqlalchemy
 
 __all__ = [
-    "in_memory"
+    "in_memory",
+    "sqlalchemy",
 ]

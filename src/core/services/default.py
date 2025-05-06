@@ -11,12 +11,14 @@ from src.common.types import (
     TInternalData,
 )
 
+RelatedRepository = Dict[str, GetAndAskRepository[T_ID, Union[int, str]]]
+
 class DefaultService(Generic[T_ID, TEntity, TCreateDTO, TReadDTO, TInternalData]):
     def __init__(
         self,
         repository: CrudRepository[T_ID, TEntity],
         mapper: Mapper[TEntity, TCreateDTO, TReadDTO, TInternalData],
-        related_repositories: Optional[Dict[str, GetAndAskRepository[T_ID, Union[int, str]]]] = None,
+        related_repositories: Optional[RelatedRepository] = None,
         logger: Optional[Logger] = None,
         hook_orchestrator_cls: Optional[HookOrchestrator] = None
     ):

@@ -11,7 +11,7 @@ def require_fields(fields: list[str]) -> DataValidatorHook:
         return data
     return DataValidatorHook(validate)
 
-def make_check_unique_email_hook(
+def check_unique_email_hook(
     field: str,
     repository: GetByEmailPort
     ) -> DataValidatorHook:

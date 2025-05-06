@@ -10,6 +10,10 @@ class GetPort(Generic[T_ID, TEntity], ABC):
     @abstractmethod
     def get(self, id: T_ID) -> TEntity: ...
 
+class UpdatePort(Generic[TEntity], ABC):
+    @abstractmethod
+    def update(self, entity: TEntity) -> TEntity: ...
+
 class ListPort(Generic[TEntity], ABC):
     @abstractmethod
     def list_all(self) -> list[TEntity]: ...
@@ -18,7 +22,14 @@ class DeletePort(Generic[T_ID], ABC):
     @abstractmethod
     def delete(self, id: T_ID) -> bool: ...
 
-class CrudRepository(GetPort[T_ID, TEntity], SavePort[TEntity], ListPort[TEntity], DeletePort[T_ID], ABC):
+class CrudRepository(
+    Generic[TEntity, T_ID],
+    GetPort[T_ID, TEntity],
+    UpdatePort[TEntity],
+    SavePort[TEntity],
+    ListPort[TEntity],
+    DeletePort[T_ID], ABC
+):
     @abstractmethod
     def assign_id(self) -> T_ID: ...
 

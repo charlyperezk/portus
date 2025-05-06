@@ -10,7 +10,6 @@ from src.common.types import (
     TUpdateDTO,
     TReadDTO,
     TInternalData,
-    PASSIVE_DELETION_FLAG,
     RELATION_SETTED_FLAG
 )
 from src.hooks.base import HookOrchestrator, BaseHook
@@ -43,12 +42,11 @@ class CRUDService(
         entity = await self.repository.get(id)
         if not entity:
             raise ValidationError.id_not_exists(id)
-        
         self.logger.debug(f"Detected changes {dto.model_dump(exclude_unset=True)}")
         raw_data = self.mapper.define_unset_fields_from_entity(entity, dto)
         processed_data = await self._run_before_update_hooks(raw_data)
         merged_entity = self.mapper.merge_changes(entity, processed_data)
-        await self._persist(merged_entity)
+        await self.repository.update(merged_entity)
         
         entity_name = entity.__class__.__name__
         self.logger.info(f"{entity_name} updated with ID {entity.id}")
@@ -75,16 +73,7 @@ class CRUDService(
         data = self.mapper.from_entity_to_internal_data(entity)
         processed_data = await self._run_before_delete_hooks(data)
         
-        entity_name = entity.__class__.__name__
-        
-        if processed_data.get_flags_within_context(
-            prefix=PASSIVE_DELETION_FLAG
-        ):
-            await self._persist(self.mapper.from_internal_data(processed_data))
-            self.logger.info(f"{entity_name} was soft-deleted with ID {entity.id}")
-        else:
-            self.repository.delete(id)
-            self.logger.info(f"{entity_name} was hard-deleted with ID {entity.id}")
+        await self.repository.delete(id)
 
         processed_data.print_trace(logger=self.log_debug, prefix="Delete flow")
 

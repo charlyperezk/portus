@@ -21,6 +21,11 @@ class InMemoryRepository(CrudRepository[TEntity, T_ID], InMemoryStorage[T_ID, TE
         all_objects = list(self._storage.values())        
         return all_objects
 
+    async def update(self, entity: TEntity) -> TEntity:
+        if entity.id in self._storage:
+            self._storage[entity.id] = entity
+            return entity
+        
     async def delete(self, entity_id: T_ID) -> None:
         if entity_id in self._storage:
             del self._storage[entity_id]

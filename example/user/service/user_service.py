@@ -5,7 +5,10 @@ from src.core.services import CRUDService
 from src.hooks.base.orchestrator import HookOrchestrator
 
 from example.user.config import service_logger, orchestrator_logger
-from example.user.repositories import UserInMemoryRepository, CountryRelationRepository
+
+# from example.user.persistency.repositories.in_memory import UserRepository, CountryRelationRepository
+from example.user.persistency.repositories.sqlalchemy import UserRepository, CountryRelationRepository
+
 from example.user.dtos import UserCreateDTO, UserUpdateDTO, UserReadDTO
 from example.user.entities import User
 from example.user.service.methods.create import (
@@ -32,7 +35,7 @@ from example.user.service.methods.get import (
 class UserService(CRUDService[str, User, UserCreateDTO, UserReadDTO, InternalData, UserUpdateDTO]):
     def __init__(self):
         super().__init__(
-            repository=UserInMemoryRepository(),
+            repository=UserRepository(),
             mapper=DefaultMapper(User, UserReadDTO, InternalData),
             related_repositories={
                 "country_id": CountryRelationRepository()

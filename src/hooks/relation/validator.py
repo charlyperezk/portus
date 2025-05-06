@@ -2,7 +2,7 @@ from src.hooks.validator import DataValidatorHook
 from src.common.types import TInternalData
 from src.ports.output.repository import GetAndAskRepository
 
-def make_relation_exists_hook(
+def relation_exists_hook(
     field: str,
     repository: GetAndAskRepository
     ) -> DataValidatorHook:
@@ -14,7 +14,7 @@ def make_relation_exists_hook(
         return data
     return DataValidatorHook(validate)
 
-def make_is_inactive_hook(field: str) -> DataValidatorHook:
+def is_inactive_hook(field: str) -> DataValidatorHook:
     async def validate(data: TInternalData):
         active = data.get_value(field)
         if not active:

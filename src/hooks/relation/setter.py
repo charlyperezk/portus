@@ -4,7 +4,7 @@ from src.common.types import TInternalData, TEntity, T_ID, RELATION_SETTED_FLAG,
 from src.ports.output.repository import GetAndAskRepository
 from src.hooks.transformer import DataTransformerHook
 
-def make_relation_context_hook(
+def relation_context_hook(
     field: str,
     repository: GetAndAskRepository[T_ID, TEntity],
     key_name: Optional[str] = None,

@@ -2,7 +2,7 @@ from src.ports.output.notifications import NotificationPort
 from src.common.types import TInternalData
 from src.hooks.triggerer import DataTriggererHook
 
-def make_email_notification_trigger_hook(
+def email_notification_trigger_hook(
         notification_service: NotificationPort,
         subject: str,
         body: str,

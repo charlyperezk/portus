@@ -2,17 +2,17 @@ from typing import Callable, Any, Dict, Awaitable, Optional
 from src.common.types import TInternalData
 from src.hooks.transformer import DataTransformerHook
 
-def make_static_field_hook(field: str, value_fn: Callable[[], Any]) -> DataTransformerHook:
+def static_field_hook(field: str, value_fn: Callable[[], Any]) -> DataTransformerHook:
     def with_value(data: TInternalData):
         return data.with_value(field, value_fn())
     return DataTransformerHook(with_value)
 
-def make_static_fields_hook(fields: Dict[str, Any]) -> DataTransformerHook:
+def static_fields_hook(fields: Dict[str, Any]) -> DataTransformerHook:
     def merge(data: TInternalData):
         return data.merge(fields)
     return DataTransformerHook(merge)
 
-def make_computed_fields_hook(compute_fn: Callable[[TInternalData], Dict[str, Any]]) -> DataTransformerHook:
+def computed_fields_hook(compute_fn: Callable[[TInternalData], Dict[str, Any]]) -> DataTransformerHook:
     async def transform(data: TInternalData) -> TInternalData:
         computed = compute_fn(data)
         if isinstance(computed, Awaitable):
@@ -20,12 +20,12 @@ def make_computed_fields_hook(compute_fn: Callable[[TInternalData], Dict[str, An
         return data.merge(computed)
     return DataTransformerHook(transform)
 
-def make_context_flag_hook(flag_prefix: str) -> DataTransformerHook:
+def context_flag_hook(flag_prefix: str) -> DataTransformerHook:
     def with_context(data: TInternalData):
         return data.set_context_flag(flag_prefix)
     return DataTransformerHook(with_context)
 
-def make_hash_field_hook(
+def hash_field_hook(
     field: str,
     hash_function: Callable[[str], str],
     key_name: Optional[str] = None,
