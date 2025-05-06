@@ -1,19 +1,11 @@
 from fastapi import FastAPI
-from example.user.dtos import UserCreateDTO, UserReadDTO, UserUpdateDTO
-from example.user.service import UserService
 from example.countries.api.router_setter import set_country_routes
-
 from src.adapters.input.rest_controller.config import get_metadata
-from src.adapters.input.rest_controller import FastAPIRestController
 
 tags=[
         {
             "name": "countries",
             "description": "Countries CRUD operations",
-        },
-        {
-            "name": "users",
-            "description": "Users CRUD operations",
         }
     ]
 metadata = get_metadata(tags=tags)
@@ -31,12 +23,5 @@ app = FastAPI(
     openapi_url=metadata.get("openapi_url", "/openapi.json")
 )
 
-user_controller = FastAPIRestController(
-    app=app,
-    service=UserService(),
-    create_dto=UserCreateDTO,
-    read_dto=UserReadDTO,
-    update_dto=UserUpdateDTO
-)
-user_controller.register_routes("users")
-set_country_routes(router=app).register_routes("countries")
+country_controller = set_country_routes(router=app)
+country_controller.register_routes("countries")

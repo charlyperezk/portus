@@ -4,5 +4,5 @@ from example.user.persistency import repositories
 __all__ = [
     "UserDBModel",
     "CountryDBModel",
-    "repositories"
+    "repositories",
 ]

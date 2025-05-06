@@ -1,15 +1,15 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import Response
 from typing import Generic, Type, Optional, List
-from src.core.services.crud import CRUDService
+from src.ports.input.crud import CRUDPort
 from src.common.logger import Logger, create_logger
-from src.common.types import T_ID, TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TInternalData
+from src.common.types import T_ID, TCreateDTO, TReadDTO, TUpdateDTO
 
 class FastAPIRestController(Generic[TCreateDTO, TReadDTO, TUpdateDTO]):
     def __init__(
         self,
         app: FastAPI,
-        service: CRUDService[T_ID, TEntity, TCreateDTO, TReadDTO, TInternalData, TUpdateDTO],
+        service: CRUDPort[TCreateDTO, TReadDTO, TUpdateDTO, T_ID],
         create_dto: Type[TCreateDTO],
         read_dto: Type[TReadDTO],
         update_dto: Optional[Type[TUpdateDTO]] = None,
@@ -67,12 +67,12 @@ class FastAPIRestController(Generic[TCreateDTO, TReadDTO, TUpdateDTO]):
                     self.logger.error(f"There was an error updating entity - Detail: {e}")
                     raise HTTPException(status_code=404, detail=str(e))
 
-        @self.app.delete(f"{endpoint}/{{entity_id}}", tags=[prefix])
+        @self.app.delete(f"{endpoint}/{{entity_id}}", tags=[prefix], response_class=Response)
         async def delete(entity_id: T_ID):
             self.logger.info(f"Deleting entity {entity_id}")
             try:
                 if await self.service.delete(entity_id):
-                    return JSONResponse(status_code=204)
+                    return Response(status_code=204)
                 else:
                     self.logger.error(f"Entity not found - Detail: {e}")
                     raise HTTPException(status_code=404, detail="Entity not found")

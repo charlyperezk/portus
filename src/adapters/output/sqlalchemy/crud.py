@@ -1,7 +1,6 @@
 from typing import Type, Generic, Optional, List
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
-
 from src.mappers.db_base import DBMapper
 from src.common.types import T_ID, TEntity, TDBModel
 from src.common.logger import Logger
@@ -24,9 +23,7 @@ class CRUDSQLAlchemyAsyncAdapter(
     ):
         super().__init__(db_url, mapper, logger)
         self.mapper = mapper
-        self.logger.info(
-            f"CRUDSQLAlchemyAsyncAdapter initialized for {self.mapper.get_model_class().__name__}"
-        )
+        self.logger = logger or Logger(__name__)
 
     def to_model(self, entity: TEntity) -> TDBModel:
         return self.mapper.to_model(entity)
@@ -112,5 +109,5 @@ class CRUDSQLAlchemyAsyncAdapter(
                 raise RepositoryException(f"Error deleting entity: {e}")
             
             finally:
-                session.close()
+                await session.close()
                 self.logger.debug("Session closed")

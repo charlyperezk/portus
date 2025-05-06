@@ -20,6 +20,7 @@ class RelationSQLAlchemyAsyncRepository(
     ):
         super().__init__(db_url, logger)
         self.mapper = mapper
+        self.logger = logger or Logger(__name__)
 
     async def get(self, entity_id: T_ID) -> Optional[TEntity]:
         async with self.get_session() as session:

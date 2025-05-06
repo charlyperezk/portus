@@ -1,7 +1,7 @@
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 
-def get_metadata() -> Dict[str, Any]:
-    return {
+def get_metadata(tags: Optional[List[Dict[str, str]]]=[]) -> Dict[str, Any]:
+    data = {
         "title": "FastAPI-Portus CRUD REST API",
         "description": "A simple CRUD REST API using FastAPI and Portus.",
         "version": "0.1.0v",
@@ -18,14 +18,8 @@ def get_metadata() -> Dict[str, Any]:
         "docs_url": "/docs",
         "redoc_url": "/redoc",
         "openapi_url": "/openapi.json",
-        "openapi_tags": [
-            {
-                "name": "users",
-                "description": "Operations with users",
-            },
-            {
-                "name": "countries",
-                "description": "Operations with countries",
-            },
-        ]
     }
+    if tags: 
+        data["openapi_tags"] = tags
+    
+    return data

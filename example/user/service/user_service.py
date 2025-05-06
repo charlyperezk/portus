@@ -1,7 +1,7 @@
 from typing import List
 from src.mappers import DefaultMapper
 from src.common.types import InternalData
-from src.core.services import CRUDService
+from src.core.services import AdvancedCRUDService
 from src.hooks.base.orchestrator import HookOrchestrator
 
 from example.user.config import service_logger, orchestrator_logger
@@ -32,7 +32,7 @@ from example.user.service.methods.get import (
     get_transformation_hooks
 )
 
-class UserService(CRUDService[str, User, UserCreateDTO, UserReadDTO, InternalData, UserUpdateDTO]):
+class UserService(AdvancedCRUDService[str, User, UserCreateDTO, UserReadDTO, InternalData, UserUpdateDTO]):
     def __init__(self):
         super().__init__(
             repository=UserRepository(),

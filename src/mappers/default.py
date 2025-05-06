@@ -39,7 +39,11 @@ class DefaultMapper(Mapper[TEntity, TCreateDTO, TReadDTO, TInternalData]):
 
     def to_dict(self, entity: TEntity) -> dict:
         return asdict(entity)
-    
+
+    def to_entity(self, dto: TCreateDTO) -> TEntity:
+        data = dto.model_dump(exclude_unset=True)
+        return self.entity_cls(**data)
+
     def from_entity_to_internal_data(self, entity: TEntity) -> TInternalData:
         return self.internal_data_cls(self.to_dict(entity))
 

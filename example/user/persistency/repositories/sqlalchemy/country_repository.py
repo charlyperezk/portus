@@ -6,7 +6,7 @@ from src.adapters.output.sqlalchemy.related import RelationSQLAlchemyAsyncReposi
 from src.mappers.db_default import DefaultDBMapper
 
 mapper = DefaultDBMapper(CountryDBModel, Country)
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./test1.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./test.db")
 
 class CountryRelationRepository(RelationSQLAlchemyAsyncRepository[Country, int]):
     def __init__(self):

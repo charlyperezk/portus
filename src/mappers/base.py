@@ -22,6 +22,9 @@ class Mapper(ABC, Generic[TEntity, TCreateDTO, TReadDTO, TInternalData]):
     def to_dto(self, entity: TEntity, context: Optional[Dict[str, Any]]) -> TReadDTO: ...
 
     @abstractmethod
+    def to_entity(self, dto: TCreateDTO) -> TEntity: ...
+
+    @abstractmethod
     def to_internal_data(self, dto: TCreateDTO, **kwargs) -> TInternalData: ...
 
     @abstractmethod
