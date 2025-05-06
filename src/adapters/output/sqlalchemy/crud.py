@@ -49,8 +49,8 @@ class CRUDSQLAlchemyAsyncAdapter(
             
             except SQLAlchemyError as e:
                 await session.rollback()
-                self.logger.error(f"Error creating entity: {e}")
-                raise RepositoryException(f"Error creating entity: {e}")
+                self.logger.error(f"Error creating entity: {e.__cause__}")
+                raise RepositoryException(f"Error creating entity: {e.__cause__}")
             
             finally:
                 await session.close()
@@ -65,8 +65,8 @@ class CRUDSQLAlchemyAsyncAdapter(
                 return [self.from_model(model) for model in models]
             
             except SQLAlchemyError as e:
-                self.logger.error(f"Error listing entities: {e}")
-                raise RepositoryException(f"Error listing entities: {e}")
+                self.logger.error(f"Error listing entities: {e.__cause__}")
+                raise RepositoryException(f"Error listing entities: {e.__cause__}")
             
             finally:
                 await session.close()
@@ -83,8 +83,8 @@ class CRUDSQLAlchemyAsyncAdapter(
             
             except SQLAlchemyError as e:
                 await session.rollback()
-                self.logger.error(f"Error updating entity: {e}")
-                raise RepositoryException(f"Error updating entity: {e}")
+                self.logger.error(f"Error updating entity: {e.__cause__}")
+                raise RepositoryException(f"Error updating entity: {e.__cause__}")
             
             finally:
                 await session.close()
@@ -105,8 +105,8 @@ class CRUDSQLAlchemyAsyncAdapter(
                 
             except SQLAlchemyError as e:
                 await session.rollback()
-                self.logger.error(f"Error deleting entity: {e}")
-                raise RepositoryException(f"Error deleting entity: {e}")
+                self.logger.error(f"Error deleting entity: {e.__cause__}")
+                raise RepositoryException(f"Error deleting entity: {e.__cause__}")
             
             finally:
                 await session.close()

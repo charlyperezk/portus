@@ -34,8 +34,8 @@ class RelationSQLAlchemyAsyncRepository(
                     raise EntityNotFoundException(entity_id)
             
             except SQLAlchemyError as e:
-                self.logger.error(f"Error reading entity: {e}")
-                raise RepositoryException(f"Error reading entity: {e}")
+                self.logger.error(f"Error reading entity: {e.__cause__}")
+                raise RepositoryException(f"Error reading entity: {e.__cause__}")
             
             finally:
                 await session.close()

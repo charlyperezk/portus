@@ -12,43 +12,46 @@
 - **Hook Orchestrator**: Simple, async-compatible executor for validations, transformations, triggers, and logs.
 - **Composable & Reusable Hooks**: Built-in hooks like validators, related field setters, hashers, etc.
 - **Contextual Internal Data**: Hooks can inject flags or metadata into an internal context to alter service behavior.
-- **Passive & Active Behavior**: Easily switch between soft deletion or hard deletion by setting context flags.
 - **DTO Enrichment**: Populate additional fields in output DTOs with context-bound related entities.
 - **Async & Decoupled Execution**: Perform side effects (emails, logs, metrics) cleanly and safely.
 - **Trace Logging**: Track changes performed on internal data (e.g., field mutations, merges, context injections).
+- **FastAPIRestController**: Declarative and minimal REST interface layer that binds DTOs, hooks, and services to FastAPI routes. Promotes clean, DRY endpoint definitions with automatic support for common operations (CRUD), validation, and response formatting.
+- **AsyncSQLAlchemyAdapter**: Async-ready persistence layer built on SQLAlchemy 2.x. Provides a generic, reusable repository pattern with safe transactional boundaries, filtering support, and integration with hook-based data orchestration.
 
 ---
 
 ### 🔁 Recent Refactor Highlights
 
-**Previous Version**:
-- Depended on `LifeCycle`, `CompositeHook`, and nested lifecycle logic.
-- Service logic was tightly coupled with hook management.
+The service layer has been refactored to introduce a clear separation of concerns between basic and extended CRUD use cases:
 
-**Current Version**:
-- Uses a centralized `HookOrchestrator` for managing lifecycle logic.
-- Introduces a declarative and functional model:
-  - `DataValidatorHook`
-  - `DataTransformerHook`
-  - `DataTriggererHook`
-  - `LogCompositorHook`
-- Simpler `CRUDService` with rich context merging and DTO enrichment.
-- Fluent context control using `set_context`, `get_context`, `get_flags_within_context`.
-- Stronger flag typing via `ContextFlag` and `RelatedFieldContext`.
-- DTO generation extended via contextual relationship injection.
+**CrudService**:
+- A minimal, reusable service that encapsulates only the fundamental operations (`create`, `read`, `update`, `delete`).
+- Perfect for simple entities and systems with limited business logic.
+- Promotes fast onboarding and reduces cognitive load.
+
+**AdvancedCrudService**:
+- Enabling advanced behaviors like:
+  - Pre/post-processing with hooks (validators, transformers, triggers).
+  - Context-driven logic and side-effect orchestration (e.g., trace logs, async jobs).
+  - DTO enrichment with related entities or metadata.
+- Designed for complex domain logic while maintaining a clean, testable interface.
+
+This refactor aligns with `Hexagonal Architecture principles`, supports `async-first` design, and increases codebase scalability by promoting composition and single-responsibility separation.
 
 ---
 
 ### 📁 Project Structure
 
 ```
-hooks/          # Hooks categorized by feature (validator, transformer, logger, triggerer)
-core/services/  # Service base classes (DefaultService, CRUDService)
-example/user/   # User domain example (DTOs, entities, service, repositories)
-ports/          # Interfaces for input/output
-adapters/       # Concrete implementations (e.g., in-memory repo, notification adapters)
-mappers/        # Entity-to-DTO and vice versa
-common/         # Shared types, internal data, context flags, exceptions
+
+example/        # User and Country example (DTOs, entities, service, repositories, rest-controller)
+src/            # Source code
+    hooks/          # Hooks categorized by feature (validator, transformer, logger, triggerer)
+    core/services/  # Service base classes (DefaultService, CRUDService)
+    ports/          # Interfaces for input/output
+    adapters/       # Concrete implementations (e.g., in-memory repo, notification adapters)
+    mappers/        # Entity-to-DTO and vice versa
+    common/         # Shared types, internal data, context flags, exceptions
 tests/          # Unit and integration tests
 
 ```
@@ -64,7 +67,6 @@ Each `InternalData` object contains a `context` dictionary that allows hooks, va
 
 ### Why use it?
 
-- To alter service flow (e.g., passive vs. hard deletion)
 - To store cross-cutting flags (e.g., `skip_validation`)
 - To provide metadata for logging or event dispatchers
 
@@ -112,10 +114,10 @@ read_dto = self.mapper.to_dto(entity, related_field_flags)
 
 | File | Description |
 |------|-------------|
-| `hooks/relations/setter.py` | How relation context is set during data transformation |
-| `common/context_schemas.py` | Defines `RelatedFieldContext` used in relation flags |
-| `core/services/crud.py` | Service filters relation flags and passes them to the mapper |
-| `mappers/default.py` | Enriches DTOs with related fields using the passed flags |
+| `src/hooks/relations/setter.py` | How relation context is set during data transformation |
+| `src/common/context_schemas.py` | Defines `RelatedFieldContext` used in relation flags |
+| `src/core/services/crud.py` | Service filters relation flags and passes them to the mapper |
+| `src/mappers/default.py` | Enriches DTOs with related fields using the passed flags |
 
 ---
 
@@ -139,7 +141,7 @@ You can also change the logger, prefix, or output style depending on the context
 
 ## Screenshots
 
-## ![Logs](docs/debug_mode_logs.png)
+## ![Logs](docs/rest_controller_logs.png)
 
 Debug mode.
 Check example/user/config/loggers.py
@@ -165,8 +167,11 @@ pip install pytest pytest-asyncio
 
 - Python 3.11+
 - Pydantic v2
+- FastAPI
+- SQLAlchemy 2.x (modo async)
 - Async/Await
 - Type Hints & Generics
 - Pytest + Fixtures
+- SQLite
 
 ---
