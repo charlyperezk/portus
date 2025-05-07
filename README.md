@@ -141,10 +141,10 @@ You can also change the logger, prefix, or output style depending on the context
 
 ## Screenshots
 
-## ![Logs](docs/rest_controller_logs.png)
+## ![Logs](docs/logs.png)
 
-Debug mode.
-Check example/user/config/loggers.py
+Debug mode. Logs will be saved on logs/app.log
+Check example/user/config/loggers.py and src/common/logger.py
 
 ---
 
@@ -173,5 +173,6 @@ pip install pytest pytest-asyncio
 - Type Hints & Generics
 - Pytest + Fixtures
 - SQLite
+- Loguru
 
 ---

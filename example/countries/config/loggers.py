@@ -1,8 +1,8 @@
 import logging
-from src.common.logger import configure_logging
+from src.common.logger import configure_colored_logger
 
 SERVICE_NAME = "CountryCRUDService"
-create_logger = configure_logging(logging.DEBUG)
+create_logger = configure_colored_logger(logging.INFO)
 loggers = {
     "service": create_logger(SERVICE_NAME),
     "repository": create_logger(f"{SERVICE_NAME}:Repository"),

@@ -8,7 +8,7 @@ from src.common.logger import Logger, create_logger
 Base = declarative_base()
 
 async def create_all_tables(db_url: str):
-    engine = create_async_engine(db_url, echo=True)
+    engine = create_async_engine(db_url)
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

@@ -1,8 +1,8 @@
 import logging
-from src.common.logger import configure_logging
+from src.common.logger import configure_colored_logger
 
 SERVICE_NAME = "UserService"
-create_logger = configure_logging(logging.DEBUG)
+create_logger = configure_colored_logger(logging.DEBUG)
 loggers = {
     "service": create_logger(SERVICE_NAME),
     "orchestrator": create_logger(f"{SERVICE_NAME}:HooksOrchestrator"),

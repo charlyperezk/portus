@@ -8,7 +8,7 @@ from src.common.types import T_ID, TCreateDTO, TReadDTO, TUpdateDTO
 class FastAPIRestController(Generic[TCreateDTO, TReadDTO, TUpdateDTO]):
     def __init__(
         self,
-        app: FastAPI,
+        app: Union[FastAPI, APIRouter],
         service: CRUDPort[TCreateDTO, TReadDTO, TUpdateDTO, T_ID],
         create_dto: Type[TCreateDTO],
         read_dto: Type[TReadDTO],
