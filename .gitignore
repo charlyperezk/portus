@@ -7,9 +7,6 @@ __pycache__/
 # C extensions
 *.so
 
-# Files
-main.py
-
 # Test files
 *.db
 

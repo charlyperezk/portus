@@ -2,7 +2,7 @@ import os
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 
-PEPPER = os.getenv("PASSWORD_PEPPER", "SECRET") # You must declare a SECRET, don't use it in production.
+PEPPER = os.getenv("PASSWORD_PEPPER", "SECRET") # Delete default value in production
 
 ph = PasswordHasher(
     time_cost=2, 

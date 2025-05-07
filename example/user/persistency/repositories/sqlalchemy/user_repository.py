@@ -7,7 +7,7 @@ from src.mappers.db_default import DefaultDBMapper
 from src.ports.output.repository.repository import GetByEmailPort
 
 mapper = DefaultDBMapper(UserDBModel, User)
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./test.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./data/portus.db") # Delete default value in production
 
 class UserRepository(CRUDSQLAlchemyAsyncAdapter[str, User], GetByEmailPort[User]):
     def __init__(self):

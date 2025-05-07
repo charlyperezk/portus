@@ -47,13 +47,9 @@ class RelationSQLAlchemyAsyncRepository(
                 obj = await session.get(self.mapper.get_model_class(), id)
                 found = obj is not None
                 if found:
-                    self.logger.debug(f"Entity {id} exists in {
-                        self.mapper.get_table_name()}"
-                        )
+                    self.logger.debug(f"Entity {id} exists in {self.mapper.get_table_name()}")
                 else:
-                    self.logger.warning(f"Entity {id} does not exist in {
-                        self.mapper.get_table_name()}"
-                        )
+                    self.logger.warning(f"Entity {id} does not exist in {self.mapper.get_table_name()}")
                     raise EntityNotFoundException(id)
                 return found
             
