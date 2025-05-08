@@ -42,6 +42,14 @@ This refactor aligns with `Hexagonal Architecture principles`, supports `async-f
 
 ---
 
+### ⚙️ Installation
+
+```bash
+pip install portus-core
+```
+
+---
+
 ### 📁 Project Structure
 
 ```

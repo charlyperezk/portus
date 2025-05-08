@@ -68,4 +68,4 @@ def configure_colored_logger(level=logging.DEBUG):
     return create_logger
 
 create_logger = configure_colored_logger()
-setup_loguru()
+# setup_loguru()
