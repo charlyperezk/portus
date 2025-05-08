@@ -1,5 +1,5 @@
 import logging
-from src.common.logger import configure_colored_logger
+from src.portus.common.logger import configure_colored_logger
 
 SERVICE_NAME = "CountryCRUDService"
 create_logger = configure_colored_logger(logging.INFO)

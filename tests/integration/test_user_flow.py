@@ -1,7 +1,7 @@
 import pytest, asyncio
 from example.user.service.user_service import UserService
 from example.user.dtos.user_dtos import UserCreateDTO, UserUpdateDTO
-from src.common.exceptions import ValidationError
+from portus.common.exceptions import ValidationError
 
 @pytest.fixture
 def user_service():

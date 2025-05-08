@@ -1,11 +1,11 @@
 from example.user.config import notifications_logger, user_defaults, create_email
-from src.adapters.output.notifications import NotificationPort, Notifications
-from src.utils.functions import add_id, add_timestamps, hash_password
-from src.hooks.relation.setter import relation_context_hook
-from src.hooks.relation.validator import relation_exists_hook
-from src.hooks.transformer import static_fields_hook, hash_field_hook
-from src.hooks.validator import check_unique_email_hook
-from src.hooks.triggerer import email_notification_trigger_hook
+from src.portus.adapters.output.notifications import NotificationPort, Notifications
+from src.portus.utils.functions import add_id, add_timestamps, hash_password
+from src.portus.hooks.relation.setter import relation_context_hook
+from src.portus.hooks.relation.validator import relation_exists_hook
+from src.portus.hooks.transformer import static_fields_hook, hash_field_hook
+from src.portus.hooks.validator import check_unique_email_hook
+from src.portus.hooks.triggerer import email_notification_trigger_hook
 
 def create_validation_hooks(
     user_repository,

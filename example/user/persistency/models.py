@@ -1,6 +1,6 @@
 from datetime import datetime
 from example.countries.persistency.models import CountryDBModel
-from src.adapters.output.sqlalchemy.base import Base
+from src.portus.adapters.output.sqlalchemy.base import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 

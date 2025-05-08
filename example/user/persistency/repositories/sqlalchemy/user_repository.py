@@ -2,9 +2,9 @@ import os
 from example.user.entities import User
 from example.user.persistency.models import UserDBModel
 from example.user.config.loggers import repository_logger
-from src.adapters.output.sqlalchemy.crud import CRUDSQLAlchemyAsyncAdapter
-from src.mappers.db_default import DefaultDBMapper
-from src.ports.output.repository.repository import GetByEmailPort
+from src.portus.adapters.output.sqlalchemy.crud import CRUDSQLAlchemyAsyncAdapter
+from src.portus.mappers.db_default import DefaultDBMapper
+from src.portus.ports.output.repository.repository import GetByEmailPort
 
 mapper = DefaultDBMapper(UserDBModel, User)
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./data/portus.db") # Delete default value in production

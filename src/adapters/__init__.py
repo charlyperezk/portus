@@ -1,1 +1,0 @@
-from src.adapters import output, input

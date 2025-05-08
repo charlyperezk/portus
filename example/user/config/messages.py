@@ -1,5 +1,5 @@
 create_email = {
-    "subject": "¡Welcome from Portus Service!",
+    "subject": "¡Welcome from src.portus Service!",
     "body": "This is an example email"
 }
 

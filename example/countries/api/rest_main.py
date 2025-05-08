@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from example.countries.api.router_setter import set_country_routes
-from src.adapters.input.rest_controller.config import get_metadata
+from src.portus.adapters.input.rest_controller.config import get_metadata
 
 tags=[
         {

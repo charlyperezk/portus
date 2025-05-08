@@ -1,4 +1,4 @@
-from src.hooks.relation.setter import relation_context_hook
+from src.portus.hooks.relation.setter import relation_context_hook
 
 def get_transformation_hooks(country_repository):
     return [

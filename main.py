@@ -1,1 +1,1 @@
-from example.user.api import app
+from example.customer.api import app

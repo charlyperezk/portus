@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from src.utils.functions.timestamp import add_timestamps
+from portus.utils.functions.timestamp import add_timestamps
 
 def test_get_timestamp_returns_created_and_updated():
     result = add_timestamps(["created_at", "updated_at"])

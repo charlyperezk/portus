@@ -2,7 +2,7 @@
 
 import uuid
 import pytest
-from src.utils.functions.id_generation import add_id
+from portus.utils.functions.id_generation import add_id
 
 def test_id_generation_returns_uuid_string():
     data = add_id(field="id")

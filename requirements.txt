@@ -10,3 +10,6 @@ uvicorn[standard]
 sqlalchemy==2.0.20
 sqlalchemy[asyncio]==2.0.20
 aiosqlite==0.17.0
+pymongo==4.12.1
+motor==3.7.0
+beanie==1.29.0

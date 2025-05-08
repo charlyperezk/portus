@@ -1,7 +1,7 @@
 from example.user.entities import User
 from typing import Optional
-from src.ports.output.repository.repository import GetByEmailPort
-from src.adapters.output.in_memory import InMemoryRepository
+from src.portus.ports.output.repository.repository import GetByEmailPort
+from src.portus.adapters.output.in_memory import InMemoryRepository
 
 class UserRepository(InMemoryRepository[User, str], GetByEmailPort[User]):
     async def find_by_email(self, email: str):

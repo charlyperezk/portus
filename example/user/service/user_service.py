@@ -1,8 +1,8 @@
 from typing import List
-from src.mappers import DefaultMapper
-from src.common.types import InternalData
-from src.core.services import AdvancedCRUDService
-from src.hooks.base.orchestrator import HookOrchestrator
+from src.portus.mappers import DefaultMapper
+from src.portus.common.types import InternalData
+from src.portus.core.services import AdvancedCRUDService
+from src.portus.hooks.base.orchestrator import HookOrchestrator
 
 from example.user.config import service_logger, orchestrator_logger
 

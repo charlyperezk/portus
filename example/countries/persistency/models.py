@@ -1,5 +1,5 @@
 from datetime import datetime
-from src.adapters.output.sqlalchemy.base import Base
+from src.portus.adapters.output.sqlalchemy.base import Base
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 

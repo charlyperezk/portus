@@ -1,6 +1,6 @@
-from src.mappers.default import DefaultMapper
-from src.common.types import InternalData
-from src.core.services import CRUDService
+from src.portus.mappers.default import DefaultMapper
+from src.portus.common.types import InternalData
+from src.portus.core.services import CRUDService
 
 from example.countries.dtos import CountryCreateDTO, CountryReadDTO, CountryUpdateDTO
 from example.countries.entities import Country

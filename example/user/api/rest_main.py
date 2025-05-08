@@ -3,8 +3,8 @@ from contextlib import asynccontextmanager
 from example.user.api.router_setter import set_user_routes
 from example.countries.api.router_setter import set_country_routes
 from example.user.persistency.repositories.sqlalchemy.config import DATABASE_URL
-from src.adapters.output.sqlalchemy.base import Base, create_all_tables
-from src.adapters.input.rest_controller.config import get_metadata
+from src.portus.adapters.output.sqlalchemy.base import Base, create_all_tables
+from src.portus.adapters.input.rest_controller.config import get_metadata
 
 tags=[
         {

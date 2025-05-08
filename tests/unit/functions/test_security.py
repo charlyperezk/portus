@@ -1,5 +1,5 @@
 import pytest
-from src.utils.functions.security import hash_password, verify_password
+from portus.utils.functions.security import hash_password, verify_password
 
 def test_password_hash_returns_valid_hash():
     raw = "SuperSecret123!"
