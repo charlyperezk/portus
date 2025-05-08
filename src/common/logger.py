@@ -34,6 +34,8 @@ def setup_loguru():
     root_logger.setLevel(logging.DEBUG)
 
     logging.getLogger("aiosqlite").setLevel(logging.WARNING)
+    logging.getLogger("pymongo").setLevel(logging.WARNING)
+
 
     # Intercept uvicorn logs
     for name in ("uvicorn", "uvicorn.error", "uvicorn.access", "fastapi"):
